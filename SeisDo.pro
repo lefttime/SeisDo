@@ -10,6 +10,6 @@ win32:CONFIG += release
 CONFIG += build_all
 
 # Input
-HEADERS += SeisDo.h
+HEADERS += SeisDo.hpp
 FORMS += SeisDo.ui
 SOURCES += main.cpp SeisDo.cpp

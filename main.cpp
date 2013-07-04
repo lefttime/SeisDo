@@ -1,10 +1,13 @@
-#include "SeisDo.h"
 #include <QtGui/QApplication>
 
-int main(int argc, char *argv[])
+#include "SeisDo.hpp"
+
+int main( int argc, char* argv[] )
 {
-    QApplication a(argc, argv);
-    SeisDo w;
-    w.show();
-    return a.exec();
+  QApplication app( argc, argv );
+  
+  SeisDo w;
+  w.show();
+  
+  return app.exec();
 }
