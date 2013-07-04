@@ -19,7 +19,7 @@ public:
   void update() {
     unloadTranslators();
 
-    QDir dir( "translations" );
+    QDir dir( ":/translations" );
     QStringList fileNames = dir.entryList( getNameFilter(),
                                            QDir::Files,
                                            QDir::Name );
