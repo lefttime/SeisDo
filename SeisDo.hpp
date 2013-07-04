@@ -12,6 +12,15 @@ public:
   SeisDo( QWidget* parent=0, Qt::WFlags flags=0 );
   ~SeisDo();
 
+protected:
+
+  virtual void changeEvent( QEvent* event );
+
+private slots:
+
+  void on_actionChinese_triggered();
+  void on_actionEnglish_triggered();
+
 private:
 
   class SeisDoPrivate;

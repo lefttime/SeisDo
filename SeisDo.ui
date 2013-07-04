@@ -217,13 +217,28 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionChinese">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>&amp;Chinese</string>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="actionEnglish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>&amp;English</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
    </property>
   </action>
  </widget>
