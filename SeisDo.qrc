@@ -1,7 +1,4 @@
-<RCC>
-    <qresource prefix="/translations">
-        <file>translations/SeisDo_en.ts</file>
-        <file>translations/SeisDo_zh.qm</file>
-        <file>translations/SeisDo_zh.ts</file>
-    </qresource>
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+</qresource>
 </RCC>
