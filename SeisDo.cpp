@@ -1,4 +1,4 @@
-#include "SeisDo.h"
+#include "SeisDo.hpp"
 #include "ui_SeisDo.h"
 
 class SeisDo::SeisDoPrivate
