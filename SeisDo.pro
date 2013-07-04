@@ -11,5 +11,10 @@ CONFIG += build_all
 
 # Input
 HEADERS += SeisDo.hpp
+
 FORMS += SeisDo.ui
+
 SOURCES += main.cpp SeisDo.cpp
+
+TRANSLATIONS += translations/SeisDo_en.ts \
+				translations/SeisDo_zh.ts

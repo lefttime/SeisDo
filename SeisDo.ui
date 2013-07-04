@@ -33,7 +33,7 @@
           <string notr="true">color: rgb(255, 0, 0);</string>
          </property>
          <property name="text">
-          <string>工区</string>
+          <string>Survey</string>
          </property>
         </widget>
        </item>
@@ -46,7 +46,7 @@
           <string notr="true">color: rgb(255, 0, 0);</string>
          </property>
          <property name="text">
-          <string>测线</string>
+          <string>SurveyLine</string>
          </property>
         </widget>
        </item>
@@ -98,14 +98,14 @@
           <item row="0" column="0">
            <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>炮号</string>
+             <string>Pao No.</string>
             </property>
            </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>道号</string>
+             <string>Dao No.</string>
             </property>
            </widget>
           </item>
@@ -136,14 +136,14 @@
           <item row="0" column="0">
            <widget class="QLabel" name="label_5">
             <property name="text">
-             <string>炮号</string>
+             <string>Pao No.</string>
             </property>
            </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_6">
             <property name="text">
-             <string>道号</string>
+             <string>Dao No.</string>
             </property>
            </widget>
           </item>
@@ -178,27 +178,35 @@
    </property>
    <widget class="QMenu" name="menu_F">
     <property name="title">
-     <string>文件(&amp;F)</string>
+     <string>&amp;File</string>
     </property>
    </widget>
    <widget class="QMenu" name="menu_B">
     <property name="title">
-     <string>初至(&amp;B)</string>
+     <string>FirstArrival</string>
     </property>
    </widget>
    <widget class="QMenu" name="menu_L">
     <property name="title">
-     <string>拉平显示(&amp;L)</string>
+     <string>&amp;Level</string>
     </property>
    </widget>
    <widget class="QMenu" name="menu_T">
     <property name="title">
-     <string>工具(&amp;T)</string>
+     <string>&amp;Tool</string>
     </property>
+    <widget class="QMenu" name="menuLanguage">
+     <property name="title">
+      <string>&amp;Language</string>
+     </property>
+     <addaction name="actionChinese"/>
+     <addaction name="actionEnglish"/>
+    </widget>
+    <addaction name="menuLanguage"/>
    </widget>
    <widget class="QMenu" name="menu_H">
     <property name="title">
-     <string>帮助(&amp;H)</string>
+     <string>&amp;Help</string>
     </property>
    </widget>
    <addaction name="menu_F"/>
@@ -208,6 +216,16 @@
    <addaction name="menu_H"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionChinese">
+   <property name="text">
+    <string>&amp;Chinese</string>
+   </property>
+  </action>
+  <action name="actionEnglish">
+   <property name="text">
+    <string>&amp;English</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
