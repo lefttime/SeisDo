@@ -16,5 +16,7 @@ FORMS += SeisDo.ui
 
 SOURCES += main.cpp SeisDo.cpp
 
+RESOURCES += SeisDo.qrc
+
 TRANSLATIONS += translations/SeisDo_en.ts \
 				translations/SeisDo_zh.ts
