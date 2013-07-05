@@ -25,7 +25,6 @@ private:
 
   class SeisDoPrivate;
   QScopedPointer<SeisDoPrivate>         _pd;
-
 };
 
 #endif // SEISDO_H

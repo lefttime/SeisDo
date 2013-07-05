@@ -1,6 +1,7 @@
 #include "SeisDo.hpp"
 #include "ui_SeisDo.h"
 
+#include "Scene.hpp"
 #include "Translator.hpp"
 
 class SeisDo::SeisDoPrivate
@@ -16,13 +17,21 @@ public:
     actionGroup->setExclusive( true );
   }
 
+  void init() {
+    m_scene = new Scene( m_self );
+    m_ui.view->setScene( m_scene );
+  }
+
   SeisDo*         m_self;
   Ui::SeisDoClass m_ui;
+
+  Scene*          m_scene;
 };
 
 SeisDo::SeisDo( QWidget* parent, Qt::WFlags flags )
   : QMainWindow( parent, flags ), _pd( new SeisDoPrivate( this ) )
 {
+  _pd->init();
 }
 
 SeisDo::~SeisDo()

@@ -23,7 +23,6 @@ private:
 
   class TranslatorPrivate;
   QScopedPointer<TranslatorPrivate>         _pd;
-
 };
 
 #define theTranslator Translator::instance()

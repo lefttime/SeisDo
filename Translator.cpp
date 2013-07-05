@@ -9,7 +9,6 @@ class Translator::TranslatorPrivate
 public:
 
   TranslatorPrivate( Translator* me ) : m_self( me ) {
-
   }
 
   ~TranslatorPrivate() {
