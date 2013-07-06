@@ -18,10 +18,14 @@ public:
   };
 
   AxisLegendPrivate( AxisLegend* me ) : m_self ( me ) {
-
+    m_direction = AxisLegend::North;
   }
 
   void doPaint( QPainter* painter ) {
+    if( m_self->plotArea().isNull() ) {
+      return;
+    }
+
     refreshConfig();
 
     switch( m_direction ) {
@@ -36,18 +40,15 @@ public:
   }
 
   void refreshConfig() {
-    int viewRange;
     switch( m_direction ) {
     case AxisLegend::East:
     case AxisLegend::West: {
-      viewRange = m_self->rect().width();
-      m_config._range = QVector2D( m_self->plotArea().left(), m_self->plotArea().right() );
+      m_config._range = QVector2D( m_self->plotArea().top(), m_self->plotArea().bottom() );
     } break;
 
     case AxisLegend::South:
     case AxisLegend::North: {
-      viewRange = m_self->rect().height();
-      m_config._range = QVector2D( m_self->plotArea().top(), m_self->plotArea().bottom() );
+      m_config._range = QVector2D( m_self->plotArea().left(), m_self->plotArea().right() );
     } break;
     }
 
@@ -56,9 +57,10 @@ public:
     while( (stride / span) < 10 ) {
       span /= 10;
     }
-    if( (stride / span) > (viewRange * 0.2) ) {
+    if( (stride / span) > 25 ) {
       span *= 10;
     }
+    span = qMax( 1, span );
     m_config._start = int(m_config._range.x()) - int(m_config._range.x()) % span + span;
     m_config._end = int(m_config._range.y()) - int(m_config._range.y()) % span;
     m_config._step_major = span;
@@ -66,11 +68,49 @@ public:
   }
 
   void drawFaceToEast( QPainter* painter ) {
-    Q_UNUSED( painter );
+    painter->save();
+    {
+      QRectF srcRect( QPointF(0, m_config._range.x()),
+                      QPointF((m_config._range.y()-m_config._range.x()), m_config._range.y()) );
+      QRect targetRect = m_self->rect();
+      targetRect.setRight( targetRect.width()*0.5 );
+      QTransform trans = generateTrans( srcRect, targetRect );
+
+      QFontMetrics fm( painter->font() );
+      for( float pos = m_config._start; pos <= m_config._end; pos += m_config._step_major ) {
+        painter->drawLine( trans.map( QPointF(0, pos) ),
+                           trans.map( QPointF(srcRect.width()*0.25f, pos) ) );
+
+        QPointF textPos = trans.map( QPointF(srcRect.width()*0.25f, pos) );
+        QRect textRect = fm.boundingRect( QString::number( pos ) );
+        textPos += QPointF( fm.boundingRect('0').width(), textRect.height()*0.5f );
+        painter->drawText( textPos, QString::number( pos ) );
+      }
+    }
+    painter->restore();
   }
 
   void drawFaceToWest( QPainter* painter ) {
-    Q_UNUSED( painter );
+    painter->save();
+    {
+      QRectF srcRect( QPointF(0, m_config._range.x()),
+                      QPointF((m_config._range.y()-m_config._range.x()), m_config._range.y()) );
+      QRect targetRect = m_self->rect();
+      targetRect.setLeft( targetRect.width()*0.5 );
+      QTransform trans = generateTrans( srcRect, targetRect );
+
+      QFontMetrics fm( painter->font() );
+      for( float pos = m_config._start; pos <= m_config._end; pos += m_config._step_major ) {
+        painter->drawLine( trans.map( QPointF(srcRect.width(), pos) ),
+                           trans.map( QPointF(srcRect.width()*0.75f, pos) ) );
+
+        QPointF textPos = trans.map( QPointF(srcRect.width()*0.75f, pos) );
+        QRect textRect = fm.boundingRect( QString::number( pos ) );
+        textPos += QPointF( -(textRect.width()+fm.boundingRect('0').width()), textRect.height()*0.5f );
+        painter->drawText( textPos, QString::number( pos ) );
+      }
+    }
+    painter->restore();
   }
 
   void drawFaceToSouth( QPainter* painter ) {
@@ -78,46 +118,42 @@ public:
   }
 
   void drawFaceToNorth( QPainter* painter ) {
-    Q_UNUSED( painter );
-
-    // draw Axis
+    QVector<QPointF> pointPairs;
     painter->save();
     {
       QRectF srcRect( QPointF(m_config._range.x(), 0),
                       QPointF(m_config._range.y(), (m_config._range.y()-m_config._range.x())) );
       QRect targetRect = m_self->rect();
       targetRect.setTop( targetRect.height()*0.5 );
+      QTransform trans = generateTrans( srcRect, targetRect );
 
-      QTransform trans;
-      {
-        QTransform matrix;
-
-        matrix.reset();
-        QPointF offset = srcRect.topLeft() - targetRect.topLeft();
-        matrix.translate( offset.x(), offset.y() );
-        trans *= matrix;
-
-        matrix.reset();
-        matrix.scale( srcRect.size().width() / targetRect.size().width(),
-                      srcRect.size().height() / targetRect.size().height() );
-        trans *= matrix;
-
-        matrix.reset();
-        offset = -offset;
-        matrix.translate( offset.x(), offset.y() );
-        trans *= matrix;
-      }
-      painter->setTransform( trans );
-
-      QVector<QPointF> pointPairs;
+      QFontMetrics fm( painter->font() );
       for( float pos = m_config._start; pos <= m_config._end; pos += m_config._step_major ) {
-        pointPairs << QPointF(pos, srcRect.height());
-        pointPairs << QPointF(pos, srcRect.height()*0.5f);
-      }
+        pointPairs << trans.map( QPointF(pos, srcRect.height() ) );
+        pointPairs << trans.map( QPointF(pos, srcRect.height()*0.75f ) );
+        painter->drawLine( trans.map( QPointF(pos, srcRect.height()) ),
+                           trans.map( QPointF(pos, srcRect.height()*0.75f) ) );
 
-      painter->drawLines( pointPairs );
+        QPointF textPos = trans.map( QPointF(pos, srcRect.height()*0.75f) );
+        QRect textRect = fm.boundingRect( QString::number( pos ) );
+        textPos -= QPointF( textRect.width()*0.5f, fm.boundingRect('0').width() );
+        painter->drawText( textPos, QString::number( pos ) );
+      }
     }
     painter->restore();
+  }
+
+  QTransform generateTrans( const QRectF& srcRect, const QRect& targetRect ) {
+    QTransform result;
+    result.reset();
+
+    float wScale = targetRect.width() / srcRect.width();
+    float hScale = targetRect.height() / srcRect.height();
+    result *= QTransform::fromTranslate( -srcRect.left(), -srcRect.top() );
+    result *= QTransform::fromScale( wScale, hScale );
+    result *= QTransform::fromTranslate( targetRect.left(), targetRect.top() );
+
+    return result;
   }
 
   AxisLegend*           m_self;
@@ -126,8 +162,7 @@ public:
 };
 
 AxisLegend::AxisLegend( QWidget* parent )
-  : Legend( parent ),
-    _pd( new AxisLegendPrivate( this ) )
+  : Legend( parent ), _pd( new AxisLegendPrivate( this ) )
 {
 }
 
@@ -147,7 +182,12 @@ void AxisLegend::setDirection( AxisLegend::Direction direction )
 
 void AxisLegend::paintEvent( QPaintEvent* event )
 {
-  Q_UNUSED( event );
+  Legend::paintEvent( event );
+
   QPainter painter( this );
+
+  QFont font = painter.font();
+  font.setPixelSize( 8 );
+  painter.setFont( font );
   _pd->doPaint( &painter );
 }

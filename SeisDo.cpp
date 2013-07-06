@@ -21,14 +21,20 @@ public:
     m_scene = new Scene( m_self );
     m_ui.view->setScene( m_scene );
 
-//    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
-//                      m_ui.top, SLOT( changePlotArea( QRectF ) ) );
-//    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
-//                      m_ui.left, SLOT( changePlotArea( QRectF ) ) );
-//    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
-//                      m_ui.right, SLOT( changePlotArea( QRectF ) ) );
+    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
+                      m_ui.top, SLOT( changePlotArea( QRectF ) ) );
+    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
+                      m_ui.left, SLOT( changePlotArea( QRectF ) ) );
+    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
+                      m_ui.right, SLOT( changePlotArea( QRectF ) ) );
 
-//    m_ui.top->setDirection( AxisLegend::North );
+    m_ui.top->setDirection( AxisLegend::North );
+    m_ui.left->setDirection( AxisLegend::West );
+    m_ui.right->setDirection( AxisLegend::East );
+
+    PlotConfig plotConfig;
+    plotConfig._plotArea = QRectF(QPointF(0, 0), QPointF(1024, 1024));
+    m_scene->setPlotConfig( plotConfig );
   }
 
   SeisDo*         m_self;

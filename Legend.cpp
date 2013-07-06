@@ -11,7 +11,7 @@ public:
   QRectF          m_plotArea;
 };
 
-Legend::Legend( QWidget* parent ) : QLabel( parent )
+Legend::Legend( QWidget* parent ) : QLabel( parent ), _pd( new LegendPrivate( this ) )
 {
 }
 
@@ -26,6 +26,7 @@ const QRectF&Legend::plotArea() const
 
 void Legend::setPlotArea( const QRectF& plotArea )
 {
+  _pd->m_plotArea = plotArea;
 }
 
 void Legend::changePlotArea( QRectF plotArea )

@@ -202,7 +202,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="Legend" name="left">
+        <widget class="AxisLegend" name="left">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -228,7 +228,7 @@
         </widget>
        </item>
        <item row="1" column="2">
-        <widget class="Legend" name="right">
+        <widget class="AxisLegend" name="right">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -333,12 +333,6 @@
    <class>Canvas</class>
    <extends>QFrame</extends>
    <header>Canvas.hpp</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>Legend</class>
-   <extends>QFrame</extends>
-   <header>Legend.hpp</header>
    <container>1</container>
   </customwidget>
   <customwidget>
