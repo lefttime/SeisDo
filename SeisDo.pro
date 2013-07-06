@@ -17,7 +17,8 @@ HEADERS += AbstractShapeItem.hpp \
            TimeLineItem.hpp \
            TraceItem.hpp \
            Translator.hpp \
-           UniformData2D.hpp
+           UniformData2D.hpp \
+    AxisLegend.hpp
 FORMS += SeisDo.ui
 SOURCES += AbstractShapeItem.cpp \
            Canvas.cpp \
@@ -28,6 +29,7 @@ SOURCES += AbstractShapeItem.cpp \
            TimeLineItem.cpp \
            TraceItem.cpp \
            Translator.cpp \
-           UniformData2D.cpp
+           UniformData2D.cpp \
+    AxisLegend.cpp
 RESOURCES += SeisDo.qrc
 TRANSLATIONS += translations/SeisDo_en.ts translations/SeisDo_zh.ts

@@ -12,6 +12,14 @@ public:
   Canvas( QWidget* parent );
   ~Canvas();
 
+protected:
+
+  virtual void resizeEvent ( QResizeEvent* event );
+
+signals:
+
+  void plotAreaChanged( QRectF );
+
 private:
 
   class CanvasPrivate;

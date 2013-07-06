@@ -2,6 +2,7 @@
 #define SCENE_HPP
 
 #include <QGraphicsScene>
+#include "Shared.hpp"
 
 class Scene : public QGraphicsScene
 {
@@ -11,6 +12,9 @@ public:
 
   Scene( QObject* parent=0 );
   ~Scene();
+
+  const PlotConfig& plotConfig() const;
+  void setPlotConfig( const PlotConfig& );
 
 private:
 

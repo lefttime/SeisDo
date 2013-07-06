@@ -8,6 +8,7 @@ public:
   }
 
   Scene*         m_self;
+  PlotConfig     m_config;
 };
 
 Scene::Scene( QObject* parent ) : QGraphicsScene( parent ), _pd( new ScenePrivate( this ) )
@@ -16,4 +17,14 @@ Scene::Scene( QObject* parent ) : QGraphicsScene( parent ), _pd( new ScenePrivat
 
 Scene::~Scene()
 {
+}
+
+const PlotConfig&Scene::plotConfig() const
+{
+  return _pd->m_config;
+}
+
+void Scene::setPlotConfig( const PlotConfig& plotConfig )
+{
+  _pd->m_config = plotConfig;
 }

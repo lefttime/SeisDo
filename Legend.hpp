@@ -12,6 +12,15 @@ public:
   Legend( QWidget* parent );
   ~Legend();
 
+  const QRectF& plotArea() const;
+  void setPlotArea( const QRectF& plotArea );
+
+protected:
+
+public slots:
+
+  void changePlotArea( QRectF plotArea );
+
 private:
 
   class LegendPrivate;

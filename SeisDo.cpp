@@ -20,6 +20,15 @@ public:
   void init() {
     m_scene = new Scene( m_self );
     m_ui.view->setScene( m_scene );
+
+//    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
+//                      m_ui.top, SLOT( changePlotArea( QRectF ) ) );
+//    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
+//                      m_ui.left, SLOT( changePlotArea( QRectF ) ) );
+//    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
+//                      m_ui.right, SLOT( changePlotArea( QRectF ) ) );
+
+//    m_ui.top->setDirection( AxisLegend::North );
   }
 
   SeisDo*         m_self;
