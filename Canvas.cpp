@@ -1,6 +1,8 @@
 #include "Canvas.hpp"
 #include "Scene.hpp"
 
+#include <QPalette>
+#include <QPainter>
 #include <QResizeEvent>
 
 class Canvas::CanvasPrivate
@@ -16,6 +18,9 @@ public:
 
 Canvas::Canvas( QWidget* parent ) : QFrame( parent ), _pd( new CanvasPrivate( this ) )
 {
+  QPalette palette;
+  palette.setColor( QPalette::Window, Qt::white );
+  setPalette( palette );
 }
 
 Canvas::~Canvas()
@@ -32,9 +37,12 @@ Scene* Canvas::scene() const
   return _pd->m_scene;
 }
 
-void Canvas::paintEvent( QPaintEvent* )
+void Canvas::paintEvent( QPaintEvent* event )
 {
+  QFrame::paintEvent( event );
 
+  QPainter painter( this );
+  _pd->m_scene->render( &painter );
 }
 
 void Canvas::resizeEvent( QResizeEvent* event )

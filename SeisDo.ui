@@ -117,6 +117,12 @@
           </property>
           <item row="0" column="0">
            <widget class="QLabel" name="label_3">
+            <property name="font">
+             <font>
+              <family>Tahoma</family>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Pao No.</string>
             </property>
@@ -127,6 +133,11 @@
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_4">
+            <property name="font">
+             <font>
+              <family>Tahoma</family>
+             </font>
+            </property>
             <property name="text">
              <string>Dao No.</string>
             </property>
@@ -180,6 +191,11 @@
           </property>
           <item row="0" column="0">
            <widget class="QLabel" name="label_5">
+            <property name="font">
+             <font>
+              <family>Tahoma</family>
+             </font>
+            </property>
             <property name="text">
              <string>Pao No.</string>
             </property>
@@ -190,6 +206,11 @@
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_6">
+            <property name="font">
+             <font>
+              <family>Tahoma</family>
+             </font>
+            </property>
             <property name="text">
              <string>Dao No.</string>
             </property>
@@ -218,6 +239,9 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="autoFillBackground">
+          <bool>true</bool>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>

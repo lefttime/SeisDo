@@ -31,10 +31,6 @@ public:
     m_ui.top->setDirection( AxisLegend::North );
     m_ui.left->setDirection( AxisLegend::West );
     m_ui.right->setDirection( AxisLegend::East );
-
-    PlotConfig plotConfig;
-    plotConfig._plotArea = QRectF(QPointF(0, 0), QPointF(1024, 1024));
-    m_scene->setPlotConfig( plotConfig );
   }
 
   SeisDo*         m_self;

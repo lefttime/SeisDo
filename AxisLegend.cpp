@@ -76,6 +76,7 @@ public:
       targetRect.setRight( targetRect.width()*0.5 );
       QTransform trans = generateTrans( srcRect, targetRect );
 
+      int pixelOffset = painter->font().pixelSize()*0.5f;
       QFontMetrics fm( painter->font() );
       for( float pos = m_config._start; pos <= m_config._end; pos += m_config._step_major ) {
         painter->drawLine( trans.map( QPointF(0, pos) ),
@@ -83,7 +84,7 @@ public:
 
         QPointF textPos = trans.map( QPointF(srcRect.width()*0.25f, pos) );
         QRect textRect = fm.boundingRect( QString::number( pos ) );
-        textPos += QPointF( fm.boundingRect('0').width(), textRect.height()*0.5f );
+        textPos += QPointF( pixelOffset*0.5f, pixelOffset );
         painter->drawText( textPos, QString::number( pos ) );
       }
     }
@@ -99,6 +100,7 @@ public:
       targetRect.setLeft( targetRect.width()*0.5 );
       QTransform trans = generateTrans( srcRect, targetRect );
 
+      int pixelOffset = painter->font().pixelSize()*0.5f;
       QFontMetrics fm( painter->font() );
       for( float pos = m_config._start; pos <= m_config._end; pos += m_config._step_major ) {
         painter->drawLine( trans.map( QPointF(srcRect.width(), pos) ),
@@ -106,7 +108,7 @@ public:
 
         QPointF textPos = trans.map( QPointF(srcRect.width()*0.75f, pos) );
         QRect textRect = fm.boundingRect( QString::number( pos ) );
-        textPos += QPointF( -(textRect.width()+fm.boundingRect('0').width()), textRect.height()*0.5f );
+        textPos += QPointF( -(textRect.width()+pixelOffset*0.5f), pixelOffset );
         painter->drawText( textPos, QString::number( pos ) );
       }
     }
@@ -127,6 +129,7 @@ public:
       targetRect.setTop( targetRect.height()*0.5 );
       QTransform trans = generateTrans( srcRect, targetRect );
 
+      int pixelOffset = painter->font().pixelSize()*0.25f;
       QFontMetrics fm( painter->font() );
       for( float pos = m_config._start; pos <= m_config._end; pos += m_config._step_major ) {
         pointPairs << trans.map( QPointF(pos, srcRect.height() ) );
@@ -136,7 +139,7 @@ public:
 
         QPointF textPos = trans.map( QPointF(pos, srcRect.height()*0.75f) );
         QRect textRect = fm.boundingRect( QString::number( pos ) );
-        textPos -= QPointF( textRect.width()*0.5f, fm.boundingRect('0').width() );
+        textPos -= QPointF( textRect.width()*0.5f, pixelOffset );
         painter->drawText( textPos, QString::number( pos ) );
       }
     }
@@ -187,6 +190,7 @@ void AxisLegend::paintEvent( QPaintEvent* event )
   QPainter painter( this );
 
   QFont font = painter.font();
+  font.setFamily( "Verdana" );
   font.setPixelSize( 8 );
   painter.setFont( font );
   _pd->doPaint( &painter );
