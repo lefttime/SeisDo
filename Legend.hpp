@@ -10,12 +10,10 @@ class Legend : public QLabel
 public:
 
   Legend( QWidget* parent );
-  ~Legend();
+  virtual ~Legend();
 
   const QRectF& plotArea() const;
   void setPlotArea( const QRectF& plotArea );
-
-protected:
 
 public slots:
 

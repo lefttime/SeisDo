@@ -4,6 +4,7 @@
 #include <QFrame>
 
 class Scene;
+class CanvasHelper;
 
 class Canvas : public QFrame
 {
@@ -22,14 +23,22 @@ protected:
   virtual void paintEvent( QPaintEvent* );
   virtual void resizeEvent( QResizeEvent* event );
 
+  virtual void mouseDoubleClickEvent( QMouseEvent* event );
+  virtual void mouseMoveEvent( QMouseEvent* event );
+  virtual void mousePressEvent( QMouseEvent* event );
+  virtual void mouseReleaseEvent( QMouseEvent* event );
+
 signals:
 
   void plotAreaChanged( QRectF );
+  void showPickingInfo( const QString& info, int timeout=0 );
 
 private:
 
   class CanvasPrivate;
   QScopedPointer<CanvasPrivate>         _pd;
+
+  friend class CanvasHelper;
 };
 
 #endif // CANVAS_HPP

@@ -1,5 +1,6 @@
 #include "Canvas.hpp"
 #include "Scene.hpp"
+#include "CanvasHelper.hpp"
 
 #include <QPalette>
 #include <QPainter>
@@ -9,11 +10,20 @@ class Canvas::CanvasPrivate
 {
 public:
 
-  CanvasPrivate( Canvas* me ) : m_self( me ) {
+  CanvasPrivate( Canvas* me ) : m_self( me ), m_scene( 0 ) {
+  }
+
+  ~CanvasPrivate() {
+    delete m_helper;
+  }
+
+  void init() {
+    m_helper = new CanvasHelper( m_self );
   }
 
   Canvas*         m_self;
   Scene*          m_scene;
+  CanvasHelper*   m_helper;
 };
 
 Canvas::Canvas( QWidget* parent ) : QFrame( parent ), _pd( new CanvasPrivate( this ) )
@@ -21,6 +31,8 @@ Canvas::Canvas( QWidget* parent ) : QFrame( parent ), _pd( new CanvasPrivate( th
   QPalette palette;
   palette.setColor( QPalette::Window, Qt::white );
   setPalette( palette );
+
+  _pd->init();
 }
 
 Canvas::~Canvas()
@@ -43,6 +55,7 @@ void Canvas::paintEvent( QPaintEvent* event )
 
   QPainter painter( this );
   _pd->m_scene->render( &painter );
+  update();
 }
 
 void Canvas::resizeEvent( QResizeEvent* event )
@@ -58,3 +71,22 @@ void Canvas::resizeEvent( QResizeEvent* event )
   }
 }
 
+void Canvas::mouseDoubleClickEvent( QMouseEvent* event )
+{
+  _pd->m_helper->processMouseDoubleClick( event );
+}
+
+void Canvas::mouseMoveEvent( QMouseEvent* event )
+{
+  _pd->m_helper->processMouseMove( event );
+}
+
+void Canvas::mousePressEvent( QMouseEvent* event )
+{
+  _pd->m_helper->processMousePress( event );
+}
+
+void Canvas::mouseReleaseEvent( QMouseEvent* event )
+{
+  _pd->m_helper->processMouseRelease( event );
+}

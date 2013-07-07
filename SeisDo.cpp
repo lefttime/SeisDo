@@ -1,8 +1,8 @@
 #include "SeisDo.hpp"
 #include "ui_SeisDo.h"
 
-#include "Scene.hpp"
 #include "Translator.hpp"
+#include "SeisHelper.hpp"
 
 class SeisDo::SeisDoPrivate
 {
@@ -17,10 +17,11 @@ public:
     actionGroup->setExclusive( true );
   }
 
-  void init() {
-    m_scene = new Scene( m_self );
-    m_ui.view->setScene( m_scene );
+  ~SeisDoPrivate() {
+    delete m_helper;
+  }
 
+  void init() {
     QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
                       m_ui.top, SLOT( changePlotArea( QRectF ) ) );
     QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
@@ -31,12 +32,14 @@ public:
     m_ui.top->setDirection( AxisLegend::North );
     m_ui.left->setDirection( AxisLegend::West );
     m_ui.right->setDirection( AxisLegend::East );
+
+    m_helper = new SeisHelper( m_self );
   }
 
   SeisDo*         m_self;
   Ui::SeisDoClass m_ui;
 
-  Scene*          m_scene;
+  SeisHelper*     m_helper;
 };
 
 SeisDo::SeisDo( QWidget* parent, Qt::WFlags flags )
@@ -47,6 +50,11 @@ SeisDo::SeisDo( QWidget* parent, Qt::WFlags flags )
 
 SeisDo::~SeisDo()
 {
+}
+
+Canvas* SeisDo::canvas()
+{
+  return _pd->m_ui.view;
 }
 
 void SeisDo::changeEvent( QEvent* event )

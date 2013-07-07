@@ -5,6 +5,7 @@
 #include "Shared.hpp"
 
 class QPainter;
+class AbstractShapeItem;
 
 class Scene : public QObject
 {
@@ -14,6 +15,9 @@ public:
 
   Scene( QObject* parent=0 );
   ~Scene();
+
+  void addItem( AbstractShapeItem* item );
+  void removeItem( AbstractShapeItem* item );
 
   void render( QPainter* painter );
 

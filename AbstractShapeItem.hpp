@@ -14,9 +14,14 @@ class AbstractShapeItem
 public:
 
   AbstractShapeItem( const PlotConfig& plotConfig );
-  ~AbstractShapeItem();
+  virtual ~AbstractShapeItem();
 
-  virtual void render( QPainter* painter, QPaintEvent* event );
+  const PlotConfig& plotConfig() const;
+
+  void show();
+  void hide();
+
+  void render( QPainter* painter );
 
 protected:
 

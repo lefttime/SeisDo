@@ -13,6 +13,7 @@ public:
 
 Legend::Legend( QWidget* parent ) : QLabel( parent ), _pd( new LegendPrivate( this ) )
 {
+  setAlignment( Qt::AlignHCenter | Qt::AlignTop );
 }
 
 Legend::~Legend()

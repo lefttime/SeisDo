@@ -2,6 +2,7 @@
 
 #include <QPainter>
 #include <QVector2D>
+#include <QApplication>
 
 class AxisLegend::AxisLegendPrivate
 {
@@ -120,20 +121,17 @@ public:
   }
 
   void drawFaceToNorth( QPainter* painter ) {
-    QVector<QPointF> pointPairs;
     painter->save();
     {
       QRectF srcRect( QPointF(m_config._range.x(), 0),
                       QPointF(m_config._range.y(), (m_config._range.y()-m_config._range.x())) );
       QRect targetRect = m_self->rect();
-      targetRect.setTop( targetRect.height()*0.5 );
+      targetRect.setTop( targetRect.height()*0.3 );
       QTransform trans = generateTrans( srcRect, targetRect );
 
-      int pixelOffset = painter->font().pixelSize()*0.25f;
+      int pixelOffset = painter->font().pixelSize()*0.5f;
       QFontMetrics fm( painter->font() );
       for( float pos = m_config._start; pos <= m_config._end; pos += m_config._step_major ) {
-        pointPairs << trans.map( QPointF(pos, srcRect.height() ) );
-        pointPairs << trans.map( QPointF(pos, srcRect.height()*0.75f ) );
         painter->drawLine( trans.map( QPointF(pos, srcRect.height()) ),
                            trans.map( QPointF(pos, srcRect.height()*0.75f) ) );
 
@@ -191,7 +189,7 @@ void AxisLegend::paintEvent( QPaintEvent* event )
 
   QFont font = painter.font();
   font.setFamily( "Verdana" );
-  font.setPixelSize( 8 );
+  font.setPixelSize( 9 );
   painter.setFont( font );
   _pd->doPaint( &painter );
 }

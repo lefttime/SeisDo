@@ -1,10 +1,10 @@
 #ifndef SHARED_HPP
 #define SHARED_HPP
 
-#include <QRectF>
+#include <QRect>
 
 struct PlotConfig {
-  QRectF _plotArea;
+  QRect _plotArea;
 };
 
 struct SectionConfig {
