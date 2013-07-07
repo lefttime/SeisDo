@@ -1,10 +1,12 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include <QGraphicsScene>
+#include <QObject>
 #include "Shared.hpp"
 
-class Scene : public QGraphicsScene
+class QPainter;
+
+class Scene : public QObject
 {
   Q_OBJECT;
 
@@ -12,6 +14,8 @@ public:
 
   Scene( QObject* parent=0 );
   ~Scene();
+
+  void render( QPainter* painter );
 
   const PlotConfig& plotConfig() const;
   void setPlotConfig( const PlotConfig& );

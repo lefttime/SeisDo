@@ -4,13 +4,16 @@ class AbstractShapeItem::AbstractShapeItemPrivate
 {
 public:
 
-  AbstractShapeItemPrivate( AbstractShapeItem* me ) : m_self( me ) {
+  AbstractShapeItemPrivate( AbstractShapeItem* me, const PlotConfig& plotConfig )
+    : m_self( me ), m_plotConfig( plotConfig ) {
   }
 
   AbstractShapeItem*         m_self;
+  const PlotConfig&          m_plotConfig;
 };
 
-AbstractShapeItem::AbstractShapeItem() : QAbstractGraphicsShapeItem(), _pd( new AbstractShapeItemPrivate( this ) )
+AbstractShapeItem::AbstractShapeItem( const PlotConfig& plotConfig )
+  : _pd( new AbstractShapeItemPrivate( this, plotConfig ) )
 {
 }
 
@@ -18,7 +21,8 @@ AbstractShapeItem::~AbstractShapeItem()
 {
 }
 
-void AbstractShapeItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void AbstractShapeItem::render( QPainter* painter, QPaintEvent* event )
 {
-  doPaint( painter, option, widget );
+  Q_UNUSED( event );
+  doPaint( painter );
 }

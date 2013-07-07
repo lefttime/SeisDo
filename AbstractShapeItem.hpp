@@ -1,20 +1,26 @@
 #ifndef ABSTRACTSHAPEITEM_HPP
 #define ABSTRACTSHAPEITEM_HPP
 
-#include <QAbstractGraphicsShapeItem>
+#include "Shared.hpp"
 
-class AbstractShapeItem : public QAbstractGraphicsShapeItem
+#include <QRectF>
+#include <QScopedPointer>
+
+class QPainter;
+class QPaintEvent;
+
+class AbstractShapeItem
 {
 public:
 
-  AbstractShapeItem();
+  AbstractShapeItem( const PlotConfig& plotConfig );
   ~AbstractShapeItem();
+
+  virtual void render( QPainter* painter, QPaintEvent* event );
 
 protected:
 
-  virtual void doPaint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget=0 )=0;
-
-  virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget=0 );
+  virtual void doPaint( QPainter* painter )=0;
 
 private:
 

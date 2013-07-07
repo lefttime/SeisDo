@@ -1,9 +1,11 @@
 #ifndef CANVAS_HPP
 #define CANVAS_HPP
 
-#include <QGraphicsView>
+#include <QFrame>
 
-class Canvas : public QGraphicsView
+class Scene;
+
+class Canvas : public QFrame
 {
   Q_OBJECT;
 
@@ -12,9 +14,13 @@ public:
   Canvas( QWidget* parent );
   ~Canvas();
 
+  void setScene( Scene* scene );
+  Scene* scene() const;
+
 protected:
 
-  virtual void resizeEvent ( QResizeEvent* event );
+  virtual void paintEvent( QPaintEvent* );
+  virtual void resizeEvent( QResizeEvent* event );
 
 signals:
 

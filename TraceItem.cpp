@@ -13,8 +13,8 @@ public:
   const UniformData2D&  m_data;
 };
 
-TraceItem::TraceItem( const UniformData2D& data )
-  : AbstractShapeItem(), _pd( new TraceItemPrivate( this, data ) )
+TraceItem::TraceItem( const PlotConfig& plotConfig, const UniformData2D& data )
+  : AbstractShapeItem( plotConfig ), _pd( new TraceItemPrivate( this, data ) )
 {
 }
 
@@ -22,11 +22,9 @@ TraceItem::~TraceItem()
 {
 }
 
-void TraceItem::doPaint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void TraceItem::doPaint( QPainter* painter )
 {
   Q_UNUSED( painter );
-  Q_UNUSED( option );
-  Q_UNUSED( widget );
   if( _pd->m_data.data().isEmpty() ) {
     return;
   }

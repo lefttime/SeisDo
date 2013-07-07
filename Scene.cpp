@@ -11,7 +11,7 @@ public:
   PlotConfig     m_config;
 };
 
-Scene::Scene( QObject* parent ) : QGraphicsScene( parent ), _pd( new ScenePrivate( this ) )
+Scene::Scene( QObject* parent ) : QObject( parent ), _pd( new ScenePrivate( this ) )
 {
 }
 
@@ -19,7 +19,12 @@ Scene::~Scene()
 {
 }
 
-const PlotConfig&Scene::plotConfig() const
+void Scene::render( QPainter* painter )
+{
+  Q_UNUSED( painter );
+}
+
+const PlotConfig& Scene::plotConfig() const
 {
   return _pd->m_config;
 }

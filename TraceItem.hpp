@@ -9,12 +9,12 @@ class TraceItem : public AbstractShapeItem
 {
 public:
 
-  TraceItem( const UniformData2D& data );
+  TraceItem( const PlotConfig& plotConfig, const UniformData2D& data );
   ~TraceItem();
 
 protected:
 
-  virtual void doPaint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget=0 );
+  virtual void doPaint( QPainter* painter );
 
 private:
 

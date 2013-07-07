@@ -11,30 +11,40 @@ public:
   }
 
   Canvas*         m_self;
+  Scene*          m_scene;
 };
 
-Canvas::Canvas( QWidget* parent ) : QGraphicsView( parent ), _pd( new CanvasPrivate( this ) )
+Canvas::Canvas( QWidget* parent ) : QFrame( parent ), _pd( new CanvasPrivate( this ) )
 {
-  setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-  setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-
-  //
-  this->setContentsMargins(0, 0, 0, 0);
-  this->setOptimizationFlag(QGraphicsView::DontAdjustForAntialiasing);
 }
 
 Canvas::~Canvas()
 {
 }
 
+void Canvas::setScene( Scene* scene )
+{
+  _pd->m_scene = scene;
+}
+
+Scene* Canvas::scene() const
+{
+  return _pd->m_scene;
+}
+
+void Canvas::paintEvent( QPaintEvent* )
+{
+
+}
+
 void Canvas::resizeEvent( QResizeEvent* event )
 {
   Q_UNUSED( event );
-  Scene* scenePtr = dynamic_cast<Scene*>( scene() );
+  Scene* scenePtr = scene();
   if( scenePtr ) {
-    float wScale = (rect().width()-2) / scenePtr->plotConfig()._plotArea.width();
-    float hScale = (rect().height()-2) / scenePtr->plotConfig()._plotArea.height();
-    scale( wScale, hScale );
+    PlotConfig plotConfig = scenePtr->plotConfig();
+    plotConfig._plotArea = rect();
+    scenePtr->setPlotConfig( plotConfig );
 
     emit plotAreaChanged( scenePtr->plotConfig()._plotArea );
   }

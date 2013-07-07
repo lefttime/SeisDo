@@ -7,12 +7,12 @@ class TimeLineItem : public AbstractShapeItem
 {
 public:
 
-  TimeLineItem();
+  TimeLineItem( const PlotConfig& plotConfig );
   ~TimeLineItem();
 
 protected:
 
-  virtual void doPaint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget=0 );
+  virtual void doPaint( QPainter* painter );
 
 private:
 
