@@ -1,29 +1,9 @@
 #include "UniformData2D.hpp"
 
-class UniformData2D::UniformData2DPrivate
+UniformData2D::UniformData2D( const QVector<float>& data, int rowCount, int columnCount )
 {
-public:
-
-  UniformData2DPrivate( UniformData2D* me ) : m_self( me ) {
-    m_rowCount = 0;
-    m_columnCount = 0;
-    m_data.clear();
-  }
-
-  UniformData2D*         m_self;
-
-  int                    m_rowCount;
-  int                    m_columnCount;
-  QVector<double>        m_data;
-};
-
-UniformData2D::UniformData2D() : _pd( new UniformData2DPrivate( this ) )
-{
-}
-
-UniformData2D::UniformData2D( const QVector<double>& data, int rowCount, int columnCount )
-  : _pd( new UniformData2DPrivate( this ) )
-{
+  m_minValue = 0;
+  m_maxValue = 0;
   setRowCount( rowCount );
   setColumnCount( columnCount );
   setData( data );
@@ -33,32 +13,49 @@ UniformData2D::~UniformData2D()
 {
 }
 
+float UniformData2D::minValue() const
+{
+  return m_minValue;
+}
+
+float UniformData2D::maxValue() const
+{
+  return m_maxValue;
+}
+
 int UniformData2D::rowCount() const
 {
-  return _pd->m_rowCount;
+  return m_rowCount;
 }
 
 void UniformData2D::setRowCount( int rowCount )
 {
-  _pd->m_rowCount = rowCount;
+  m_rowCount = rowCount;
 }
 
 int UniformData2D::columnCount() const
 {
-  return _pd->m_columnCount;
+  return m_columnCount;
 }
 
 void UniformData2D::setColumnCount( int columnCount )
 {
-  _pd->m_columnCount = columnCount;
+  m_columnCount = columnCount;
 }
 
-const QVector<double>& UniformData2D::data() const
+const QVector<float>& UniformData2D::data() const
 {
-  return _pd->m_data;
+  return m_data;
 }
 
-void UniformData2D::setData( const QVector<double>& data )
+void UniformData2D::setData( const QVector<float>& data )
 {
-  _pd->m_data = data;
+  m_data = data;
+
+  if( !m_data.isEmpty() ) {
+    QVector<float> temp = data;
+    qSort( temp );
+    m_minValue = temp.first();
+    m_maxValue = temp.last();
+  }
 }

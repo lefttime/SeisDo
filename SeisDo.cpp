@@ -75,3 +75,13 @@ void SeisDo::on_actionEnglish_triggered()
 {
   theTranslator->setLanguageType( Translator::English );
 }
+
+void SeisDo::on_actionNext_triggered()
+{
+  _pd->m_helper->next();
+}
+
+void SeisDo::on_actionPrevious_triggered()
+{
+  _pd->m_helper->previous();
+}

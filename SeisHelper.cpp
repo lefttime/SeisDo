@@ -3,7 +3,9 @@
 #include "Scene.hpp"
 #include "Canvas.hpp"
 #include "SeisDo.hpp"
+#include "DataManager.hpp"
 
+#include "TraceItem.hpp"
 #include "TimeLineItem.hpp"
 
 #include <QStatusBar>
@@ -28,6 +30,11 @@ public:
 
     // TODO: delete later
     testForStatusBar();
+
+    // TODO: delete later
+    m_data = m_dataManager.prepareData();
+    m_traceItem = new TraceItem( m_scene->plotConfig(), m_data );
+    m_scene->addItem( m_traceItem );
   }
 
   void testForStatusBar() {
@@ -57,9 +64,14 @@ public:
 
   SeisHelper*         m_self;
   SeisDo*             m_target;
+  DataManager         m_dataManager;
 
   Scene*              m_scene;
+  TraceItem*          m_traceItem;
   TimeLineItem*       m_timeLine;
+
+  UniformData2D       m_data;
+
 };
 
 SeisHelper::SeisHelper( SeisDo* target, QObject* parent )
@@ -70,4 +82,14 @@ SeisHelper::SeisHelper( SeisDo* target, QObject* parent )
 
 SeisHelper::~SeisHelper()
 {
+}
+
+void SeisHelper::next()
+{
+  _pd->m_data = _pd->m_dataManager.prepareData( 1 );
+}
+
+void SeisHelper::previous()
+{
+  _pd->m_data = _pd->m_dataManager.prepareData( 0 );
 }

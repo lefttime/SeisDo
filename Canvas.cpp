@@ -71,9 +71,9 @@ void Canvas::resizeEvent( QResizeEvent* event )
   }
 }
 
-void Canvas::mouseDoubleClickEvent( QMouseEvent* event )
+void Canvas::mousefloatClickEvent( QMouseEvent* event )
 {
-  _pd->m_helper->processMouseDoubleClick( event );
+  _pd->m_helper->processMousefloatClick( event );
 }
 
 void Canvas::mouseMoveEvent( QMouseEvent* event )

@@ -12,6 +12,9 @@ public:
   TraceItem( const PlotConfig& plotConfig, const UniformData2D& data );
   ~TraceItem();
 
+  float scale() const;
+  void setScale( float );
+
 protected:
 
   virtual void doPaint( QPainter* painter );

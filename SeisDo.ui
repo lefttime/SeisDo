@@ -388,7 +388,7 @@
      <x>0</x>
      <y>0</y>
      <width>778</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_F">
@@ -418,6 +418,8 @@
      <addaction name="actionEnglish"/>
     </widget>
     <addaction name="menuLanguage"/>
+    <addaction name="actionNext"/>
+    <addaction name="actionPrevious"/>
    </widget>
    <widget class="QMenu" name="menu_H">
     <property name="title">
@@ -454,6 +456,22 @@
    </property>
    <property name="autoRepeat">
     <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionNext">
+   <property name="text">
+    <string>Next</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionPrevious">
+   <property name="text">
+    <string>Previous</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
    </property>
   </action>
  </widget>

@@ -23,7 +23,7 @@ protected:
   virtual void paintEvent( QPaintEvent* );
   virtual void resizeEvent( QResizeEvent* event );
 
-  virtual void mouseDoubleClickEvent( QMouseEvent* event );
+  virtual void mousefloatClickEvent( QMouseEvent* event );
   virtual void mouseMoveEvent( QMouseEvent* event );
   virtual void mousePressEvent( QMouseEvent* event );
   virtual void mouseReleaseEvent( QMouseEvent* event );

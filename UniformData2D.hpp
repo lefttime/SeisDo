@@ -2,15 +2,16 @@
 #define UNIFORMDATA2D_HPP
 
 #include <QVector>
-#include <QScopedPointer>
 
 class UniformData2D
 {
 public:
 
-  UniformData2D();
-  UniformData2D( const QVector<double>& data, int rowCount, int columnCount );
+  UniformData2D( const QVector<float>& data=QVector<float>(), int rowCount=0, int columnCount=0 );
   ~UniformData2D();
+
+  float minValue() const;
+  float maxValue() const;
 
   int rowCount() const;
   void setRowCount( int );
@@ -18,13 +19,17 @@ public:
   int columnCount() const;
   void setColumnCount( int );
 
-  const QVector<double>& data() const;
-  void setData( const QVector<double>& data );
+  const QVector<float>& data() const;
+  void setData( const QVector<float>& data );
 
 private:
 
-  class UniformData2DPrivate;
-  QScopedPointer<UniformData2DPrivate>         _pd;
+  int                    m_rowCount;
+  int                    m_columnCount;
+
+  float                 m_minValue;
+  float                 m_maxValue;
+  QVector<float>        m_data;
 };
 
 #endif // UNIFORMDATA2D_HPP

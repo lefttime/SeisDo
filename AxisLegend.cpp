@@ -1,4 +1,5 @@
 #include "AxisLegend.hpp"
+#include "SeisUtil.hpp"
 
 #include <QPainter>
 #include <QVector2D>
@@ -75,7 +76,7 @@ public:
                       QPointF((m_config._range.y()-m_config._range.x()), m_config._range.y()) );
       QRect targetRect = m_self->rect();
       targetRect.setRight( targetRect.width()*0.5 );
-      QTransform trans = generateTrans( srcRect, targetRect );
+      QTransform trans = SeisUtil::generateTrans( srcRect, targetRect );
 
       int pixelOffset = painter->font().pixelSize()*0.5f;
       QFontMetrics fm( painter->font() );
@@ -99,7 +100,7 @@ public:
                       QPointF((m_config._range.y()-m_config._range.x()), m_config._range.y()) );
       QRect targetRect = m_self->rect();
       targetRect.setLeft( targetRect.width()*0.5 );
-      QTransform trans = generateTrans( srcRect, targetRect );
+      QTransform trans = SeisUtil::generateTrans( srcRect, targetRect );
 
       int pixelOffset = painter->font().pixelSize()*0.5f;
       QFontMetrics fm( painter->font() );
@@ -127,7 +128,7 @@ public:
                       QPointF(m_config._range.y(), (m_config._range.y()-m_config._range.x())) );
       QRect targetRect = m_self->rect();
       targetRect.setTop( targetRect.height()*0.3 );
-      QTransform trans = generateTrans( srcRect, targetRect );
+      QTransform trans = SeisUtil::generateTrans( srcRect, targetRect );
 
       int pixelOffset = painter->font().pixelSize()*0.5f;
       QFontMetrics fm( painter->font() );
@@ -142,19 +143,6 @@ public:
       }
     }
     painter->restore();
-  }
-
-  QTransform generateTrans( const QRectF& srcRect, const QRect& targetRect ) {
-    QTransform result;
-    result.reset();
-
-    float wScale = targetRect.width() / srcRect.width();
-    float hScale = targetRect.height() / srcRect.height();
-    result *= QTransform::fromTranslate( -srcRect.left(), -srcRect.top() );
-    result *= QTransform::fromScale( wScale, hScale );
-    result *= QTransform::fromTranslate( targetRect.left(), targetRect.top() );
-
-    return result;
   }
 
   AxisLegend*           m_self;

@@ -13,6 +13,9 @@ public:
   SeisHelper( SeisDo* target, QObject* parent=0 );
   ~SeisHelper();
 
+  void next();
+  void previous();
+
 private:
 
   class SeisHelperPrivate;

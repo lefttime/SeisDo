@@ -37,7 +37,7 @@ CanvasHelper::~CanvasHelper()
 {
 }
 
-void CanvasHelper::processMouseDoubleClick( QMouseEvent* event )
+void CanvasHelper::processMousefloatClick( QMouseEvent* event )
 {
   Q_UNUSED( event );
 }
