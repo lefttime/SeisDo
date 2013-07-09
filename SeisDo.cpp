@@ -1,6 +1,7 @@
 #include "SeisDo.hpp"
 #include "ui_SeisDo.h"
 
+#include "Canvas.hpp"
 #include "Translator.hpp"
 #include "SeisHelper.hpp"
 
@@ -22,17 +23,6 @@ public:
   }
 
   void init() {
-    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
-                      m_ui.top, SLOT( changePlotArea( QRectF ) ) );
-    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
-                      m_ui.left, SLOT( changePlotArea( QRectF ) ) );
-    QObject::connect( m_ui.view, SIGNAL( plotAreaChanged( QRectF ) ),
-                      m_ui.right, SLOT( changePlotArea( QRectF ) ) );
-
-    m_ui.top->setDirection( AxisLegend::North );
-    m_ui.left->setDirection( AxisLegend::West );
-    m_ui.right->setDirection( AxisLegend::East );
-
     m_helper = new SeisHelper( m_self );
   }
 
@@ -54,7 +44,7 @@ SeisDo::~SeisDo()
 
 Canvas* SeisDo::canvas()
 {
-  return _pd->m_ui.view;
+  return _pd->m_ui.plot;
 }
 
 void SeisDo::changeEvent( QEvent* event )

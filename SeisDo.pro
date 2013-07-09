@@ -8,38 +8,36 @@ DEPENDPATH += . GeneratedFiles translations ui
 INCLUDEPATH += .
 
 # Input
-HEADERS += AbstractShapeItem.hpp \
-           AxisLegend.hpp \
-           Canvas.hpp \
+HEADERS += Canvas.hpp \
            CanvasHelper.hpp \
            DataManager.hpp \
-           Legend.hpp \
-           LineRubberBand.hpp \
            Scene.hpp \
            SeisDo.hpp \
            SeisHelper.hpp \
            SeisUtil.hpp \
            Shared.hpp \
-           TimeLineItem.hpp \
-           TraceItem.hpp \
            Translator.hpp \
-           UniformData2D.hpp
+           UniformData2D.hpp \
+    LinearScaleEngine.hpp
 FORMS += SeisDo.ui
-SOURCES += AbstractShapeItem.cpp \
-           AxisLegend.cpp \
-           Canvas.cpp \
+SOURCES += Canvas.cpp \
            CanvasHelper.cpp \
            DataManager.cpp \
-           Legend.cpp \
-           LineRubberBand.cpp \
            main.cpp \
            Scene.cpp \
            SeisDo.cpp \
            SeisHelper.cpp \
            SeisUtil.cpp \
-           TimeLineItem.cpp \
-           TraceItem.cpp \
            Translator.cpp \
-           UniformData2D.cpp
+           UniformData2D.cpp \
+    LinearScaleEngine.cpp
 RESOURCES += SeisDo.qrc
 TRANSLATIONS += translations/SeisDo_en.ts translations/SeisDo_zh.ts
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../usr/local/qwt-6.1.0/lib/release/ -lqwt
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../usr/local/qwt-6.1.0/lib/debug/ -lqwt
+else:mac: LIBS += -F/usr/local/qwt-6.1.0/lib/ -framework qwt
+else:unix: LIBS += -L$$PWD/../../../../../usr/local/qwt-6.1.0/lib/ -lqwt
+
+mac:INCLUDEPATH += $$PWD/../../../../../usr/local/qwt-6.1.0/lib/qwt.framework/Headers
+DEPENDPATH += $$PWD/../../../../../usr/local/qwt-6.1.0

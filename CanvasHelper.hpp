@@ -16,11 +16,6 @@ public:
   CanvasHelper( Canvas* target, QObject* parent=0 );
   ~CanvasHelper();
 
-  void processMousefloatClick( QMouseEvent* event );
-  void processMouseMove( QMouseEvent* event );
-  void processMousePress( QMouseEvent* event );
-  void processMouseRelease( QMouseEvent* event );
-
 private:
 
   class CanvasHelperPrivate;

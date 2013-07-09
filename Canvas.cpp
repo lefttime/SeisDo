@@ -1,16 +1,17 @@
 #include "Canvas.hpp"
-#include "Scene.hpp"
 #include "CanvasHelper.hpp"
 
-#include <QPalette>
-#include <QPainter>
-#include <QResizeEvent>
+#include "LinearScaleEngine.hpp"
+
+#include <qwt_plot_grid.h>
+#include <qwt_plot_canvas.h>
+#include <qwt_scale_widget.h>
 
 class Canvas::CanvasPrivate
 {
 public:
 
-  CanvasPrivate( Canvas* me ) : m_self( me ), m_scene( 0 ) {
+  CanvasPrivate( Canvas* me ) : m_self( me ) {
   }
 
   ~CanvasPrivate() {
@@ -18,75 +19,49 @@ public:
   }
 
   void init() {
+    initAxes();
+    initGrid();
+
+    m_self->setCanvasBackground( Qt::white );
+
+    QwtPlotCanvas* canvas = dynamic_cast<QwtPlotCanvas*>( m_self->canvas() );
+    canvas->setFrameShape( QFrame::StyledPanel );
+    canvas->setBorderRadius( 5 );
+
     m_helper = new CanvasHelper( m_self );
   }
 
+  void initAxes() {
+    m_self->enableAxis( QwtPlot::xTop);
+    m_self->enableAxis( QwtPlot::yRight );
+    m_self->enableAxis( QwtPlot::xBottom, false );
+    m_self->axisWidget( QwtPlot::xTop )->setMargin( 0 );
+    m_self->axisWidget( QwtPlot::yLeft )->setMargin( 0 );
+    m_self->axisWidget( QwtPlot::yRight )->setMargin( 0 );
+
+    m_self->axisWidget( QwtPlot::xTop )->setTitle( tr( "PaoNo" ) );
+    m_self->axisWidget( QwtPlot::yRight )->setColorBarEnabled( true );
+    m_self->axisWidget( QwtPlot::yLeft )->setTitle( tr( "Time[ms]" ) );
+
+    LinearScaleEngine* scaleEngine = new LinearScaleEngine();
+    m_self->setAxisScaleEngine( QwtPlot::xTop, scaleEngine );
+  }
+
+  void initGrid() {
+    QwtPlotGrid* plotGrid = new QwtPlotGrid();
+    plotGrid->enableX( false );
+    plotGrid->attach( m_self );
+  }
+
   Canvas*         m_self;
-  Scene*          m_scene;
   CanvasHelper*   m_helper;
 };
 
-Canvas::Canvas( QWidget* parent ) : QFrame( parent ), _pd( new CanvasPrivate( this ) )
+Canvas::Canvas( QWidget* parent ) : QwtPlot( parent ), _pd( new CanvasPrivate( this ) )
 {
-  QPalette palette;
-  palette.setColor( QPalette::Window, Qt::white );
-  setPalette( palette );
-
   _pd->init();
 }
 
 Canvas::~Canvas()
 {
-}
-
-void Canvas::setScene( Scene* scene )
-{
-  _pd->m_scene = scene;
-}
-
-Scene* Canvas::scene() const
-{
-  return _pd->m_scene;
-}
-
-void Canvas::paintEvent( QPaintEvent* event )
-{
-  QFrame::paintEvent( event );
-
-  QPainter painter( this );
-  _pd->m_scene->render( &painter );
-  update();
-}
-
-void Canvas::resizeEvent( QResizeEvent* event )
-{
-  Q_UNUSED( event );
-  Scene* scenePtr = scene();
-  if( scenePtr ) {
-    PlotConfig plotConfig = scenePtr->plotConfig();
-    plotConfig._plotArea = rect();
-    scenePtr->setPlotConfig( plotConfig );
-
-    emit plotAreaChanged( scenePtr->plotConfig()._plotArea );
-  }
-}
-
-void Canvas::mousefloatClickEvent( QMouseEvent* event )
-{
-  _pd->m_helper->processMousefloatClick( event );
-}
-
-void Canvas::mouseMoveEvent( QMouseEvent* event )
-{
-  _pd->m_helper->processMouseMove( event );
-}
-
-void Canvas::mousePressEvent( QMouseEvent* event )
-{
-  _pd->m_helper->processMousePress( event );
-}
-
-void Canvas::mouseReleaseEvent( QMouseEvent* event )
-{
-  _pd->m_helper->processMouseRelease( event );
 }
