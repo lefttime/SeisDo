@@ -24,7 +24,7 @@ public:
     int xStep = 10;
     int yStart = 0;
     int yStop = 2000;
-    int yStep = 100;
+    int yStep = 200;
     for( int idx = xStart; idx <= xStop; ++idx ) {
       QPolygonF samples;
       for( int idy = yStart; idy < yStop; ++idy ) {
