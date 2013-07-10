@@ -7,6 +7,11 @@ TARGET = SeisDo
 DEPENDPATH += . GeneratedFiles translations ui
 INCLUDEPATH += .
 
+include( SeisDo.pri )
+
+CONFIG += build_all
+CONFIG += debug_and_release
+
 # Input
 HEADERS += Canvas.hpp \
            CanvasHelper.hpp \
@@ -34,10 +39,12 @@ SOURCES += Canvas.cpp \
 RESOURCES += SeisDo.qrc
 TRANSLATIONS += translations/SeisDo_en.ts translations/SeisDo_zh.ts
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../usr/local/qwt-6.1.0/lib/release/ -lqwt
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../usr/local/qwt-6.1.0/lib/debug/ -lqwt
-else:mac: LIBS += -F/usr/local/qwt-6.1.0/lib/ -framework qwt
-else:unix: LIBS += -L$$PWD/../../../../../usr/local/qwt-6.1.0/lib/ -lqwt
 
-mac:INCLUDEPATH += $$PWD/../../../../../usr/local/qwt-6.1.0/lib/qwt.framework/Headers
-DEPENDPATH += $$PWD/../../../../../usr/local/qwt-6.1.0
+win32: LIBS += -L$${QWT_ROOT}/lib/ -lqwt
+else:mac: LIBS += -F$${QWT_ROOT}/lib/ -framework qwt
+else:unix: LIBS += -L$${QWT_ROOT}/lib/ -lqwt
+
+mac {
+	INCLUDEPATH += $${QWT_ROOT}/lib/qwt.framework/Headers
+	DEPENDPATH += $${QWT_ROOT}
+}
