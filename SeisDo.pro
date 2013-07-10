@@ -23,7 +23,7 @@ HEADERS += Canvas.hpp \
            Shared.hpp \
            Translator.hpp \
            UniformData2D.hpp \
-    LinearScaleEngine.hpp
+		   LinearScaleEngine.hpp
 FORMS += SeisDo.ui
 SOURCES += Canvas.cpp \
            CanvasHelper.cpp \
@@ -35,16 +35,15 @@ SOURCES += Canvas.cpp \
            SeisUtil.cpp \
            Translator.cpp \
            UniformData2D.cpp \
-    LinearScaleEngine.cpp
+		   LinearScaleEngine.cpp
 RESOURCES += SeisDo.qrc
 TRANSLATIONS += translations/SeisDo_en.ts translations/SeisDo_zh.ts
 
+#win32: LIBS += -L$${QWT_ROOT}/lib/ -lqwt
+#else:mac: LIBS += -F$${QWT_ROOT}/lib/ -framework qwt
+#else:unix: LIBS += -L$${QWT_ROOT}/lib/ -lqwt
 
-win32: LIBS += -L$${QWT_ROOT}/lib/ -lqwt
-else:mac: LIBS += -F$${QWT_ROOT}/lib/ -framework qwt
-else:unix: LIBS += -L$${QWT_ROOT}/lib/ -lqwt
-
-mac {
-	INCLUDEPATH += $${QWT_ROOT}/lib/qwt.framework/Headers
-	DEPENDPATH += $${QWT_ROOT}
-}
+#mac {
+#	INCLUDEPATH += $${QWT_ROOT}/lib/qwt.framework/Headers
+#	DEPENDPATH += $${QWT_ROOT}
+#}
