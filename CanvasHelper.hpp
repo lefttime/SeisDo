@@ -5,6 +5,8 @@
 
 class Canvas;
 
+class QPointF;
+class QPolygon;
 class QMouseEvent;
 
 class CanvasHelper : public QObject
@@ -15,6 +17,13 @@ public:
 
   CanvasHelper( Canvas* target, QObject* parent=0 );
   ~CanvasHelper();
+
+  bool isEditable() const;
+  void enableEdit( bool );
+
+public slots:
+
+  void slotMove( const QPointF& );
 
 private:
 

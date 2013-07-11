@@ -15,6 +15,10 @@ public:
   Canvas( QWidget* parent );
   ~Canvas();
 
+signals:
+
+  void infoPicking( const QString& );
+
 private:
 
   class CanvasPrivate;

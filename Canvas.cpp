@@ -1,6 +1,6 @@
 #include "Canvas.hpp"
-#include "CanvasHelper.hpp"
 
+#include "CanvasHelper.hpp"
 #include "LinearScaleEngine.hpp"
 
 #include <qwt_plot_grid.h>

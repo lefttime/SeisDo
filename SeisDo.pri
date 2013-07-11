@@ -8,54 +8,52 @@
 ###################################################################
 
 win32 {
-	QWT_ROOT = $$system( echo %QWT_ROOT% )
-} else {
-	QWT_ROOT = $$system( echo $QWT_ROOT )
+    QWT_ROOT = $$system( echo %QWT_ROOT% )
 }
 
-include( $${QWT_ROOT}/qwtconfig.pri )
-include( $${QWT_ROOT}/qwtfunctions.pri )
+unix {
+    QWT_ROOT = $$system( echo $QWT_ROOT )
+}
 
-TEMPLATE     = app
+mac {
+    QWT_ROOT = /usr/local/qwt-6.1.0
 
+    INCLUDEPATH += $${QWT_ROOT}/lib/qwt.framework/Headers
+    DEPENDPATH += $${QWT_ROOT}
+}
+
+include( $${QWT_ROOT}/features/qwtconfig.pri )
+include( $${QWT_ROOT}/features/qwtfunctions.pri )
 
 QMAKE_RPATHDIR *= $${QWT_ROOT}/lib
 
 contains(QWT_CONFIG, QwtFramework) {
-
-    LIBS      += -F$${QWT_ROOT}/lib
+    LIBS += -F$${QWT_ROOT}/lib
 }
 else {
-
-    LIBS      += -L$${QWT_ROOT}/lib
+    LIBS += -L$${QWT_ROOT}/lib
 }
 
 qwtAddLibrary(qwt)
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-
     QT += printsupport
     QT += concurrent
 }
 
 contains(QWT_CONFIG, QwtOpenGL ) {
-
     QT += opengl
 }
 else {
-
     DEFINES += QWT_NO_OPENGL
 }
 
 contains(QWT_CONFIG, QwtSvg) {
-
     QT += svg
 }
 else {
-
     DEFINES += QWT_NO_SVG
 }
-
 
 win32 {
     contains(QWT_CONFIG, QwtDll) {
