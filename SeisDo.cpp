@@ -4,6 +4,10 @@
 #include "Canvas.hpp"
 #include "Translator.hpp"
 #include "SeisHelper.hpp"
+#include "DataManager.hpp"
+
+#include <QDir>
+#include <QFileDialog>
 
 class SeisDo::SeisDoPrivate
 {
@@ -54,6 +58,16 @@ void SeisDo::changeEvent( QEvent* event )
   }
 
   QWidget::changeEvent( event );
+}
+
+void SeisDo::on_actionOpenFile_triggered()
+{
+  QString fileName = QFileDialog::getOpenFileName( this, tr("Open File"),
+                                                   QDir::currentPath(),
+                                                   tr("Seg-Y (*.sgy *.segy)"));
+  if( !fileName.isEmpty() ) {
+    DataManager dataManager( fileName );
+  }
 }
 
 void SeisDo::on_actionChinese_triggered()

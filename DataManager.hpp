@@ -11,10 +11,10 @@ class DataManager : public QObject
 
 public:
 
-  DataManager( QObject* parent=0 );
+  DataManager( const QString& fileName, QObject* parent=0 );
   ~DataManager();
 
-  UniformData2D prepareData( int id=0 ) const;
+  UniformData2D prepareDataWithIndexes( const QVector<qint32>& indexes, const QVector2D& timeRange );
 
 private:
 

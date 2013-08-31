@@ -2,7 +2,6 @@
 
 #include "SeisDo.hpp"
 #include "Canvas.hpp"
-#include "DataManager.hpp"
 
 #include <QLabel>
 #include <QStatusBar>
@@ -40,9 +39,6 @@ public:
   QLabel*             m_pickerInfo;
   QLabel*             m_segyfileInfo;
   QLabel*             m_datafileInfo;
-
-  UniformData2D       m_data;
-  DataManager         m_dataManager;
 };
 
 SeisHelper::SeisHelper( SeisDo* target, QObject* parent )

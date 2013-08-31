@@ -123,6 +123,7 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionOpenFile"/>
    </widget>
    <widget class="QMenu" name="menu_B">
     <property name="title">
@@ -200,6 +201,11 @@
    </property>
    <property name="shortcut">
     <string>F2</string>
+   </property>
+  </action>
+  <action name="actionOpenFile">
+   <property name="text">
+    <string>&amp;Open File</string>
    </property>
   </action>
  </widget>

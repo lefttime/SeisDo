@@ -1,11 +1,44 @@
 #include "UniformData2D.hpp"
 
-UniformData2D::UniformData2D( const QVector<float>& data, int rowCount, int columnCount )
+#include <float.h>
+
+class UniformData2D::UniformData2DPrivate
 {
-  m_minValue = 0;
-  m_maxValue = 0;
-  setRowCount( rowCount );
-  setColumnCount( columnCount );
+public:
+
+  UniformData2DPrivate( UniformData2D* me ) : m_self( me ) {
+  }
+
+  void prepare() {
+    m_minValue = FLT_MAX;
+    m_maxValue = FLT_MIN;
+    foreach( qreal val, m_data ) {
+      m_minValue = qMin( m_minValue, val );
+      m_maxValue = qMax( m_maxValue, val );
+    }
+  }
+
+  UniformData2D*         m_self;
+
+  qreal                  m_minValue;
+  qreal                  m_maxValue;
+
+  QVector<qreal>         m_data;
+  QVector<qint32>        m_indexes;
+  QVector2D              m_timeRange;
+};
+
+UniformData2D::UniformData2D() : _pd( new UniformData2DPrivate( this ) )
+{
+}
+
+UniformData2D::UniformData2D( const QVector<qreal>& data,
+                              const QVector<qint32>& indexes,
+                              const QVector2D& timeRange )
+  : _pd( new UniformData2DPrivate( this ) )
+{
+  setIndexes( indexes );
+  setTimeRange( timeRange );
   setData( data );
 }
 
@@ -13,49 +46,43 @@ UniformData2D::~UniformData2D()
 {
 }
 
-float UniformData2D::minValue() const
+qreal UniformData2D::minValue() const
 {
-  return m_minValue;
+  return _pd->m_minValue;
 }
 
-float UniformData2D::maxValue() const
+qreal UniformData2D::maxValue() const
 {
-  return m_maxValue;
+  return _pd->m_maxValue;
 }
 
-int UniformData2D::rowCount() const
+const QVector<qint32>&UniformData2D::indexes() const
 {
-  return m_rowCount;
+  return _pd->m_indexes;
 }
 
-void UniformData2D::setRowCount( int rowCount )
+void UniformData2D::setIndexes(const QVector<qint32>& indexes)
 {
-  m_rowCount = rowCount;
+  _pd->m_indexes = indexes;
 }
 
-int UniformData2D::columnCount() const
+const QVector2D&UniformData2D::timeRange() const
 {
-  return m_columnCount;
+  return _pd->m_timeRange;
 }
 
-void UniformData2D::setColumnCount( int columnCount )
+void UniformData2D::setTimeRange( const QVector2D& timeRange )
 {
-  m_columnCount = columnCount;
+  _pd->m_timeRange = timeRange;
 }
 
-const QVector<float>& UniformData2D::data() const
+const QVector<qreal>& UniformData2D::data() const
 {
-  return m_data;
+  return _pd->m_data;
 }
 
-void UniformData2D::setData( const QVector<float>& data )
+void UniformData2D::setData( const QVector<qreal>& data )
 {
-  m_data = data;
-
-  if( !m_data.isEmpty() ) {
-    QVector<float> temp = data;
-    qSort( temp );
-    m_minValue = temp.first();
-    m_maxValue = temp.last();
-  }
+  _pd->m_data = data;
+  _pd->prepare();
 }

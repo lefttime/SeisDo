@@ -2,34 +2,37 @@
 #define UNIFORMDATA2D_HPP
 
 #include <QVector>
+#include <QVector2D>
+#include <QScopedPointer>
 
 class UniformData2D
 {
 public:
 
-  UniformData2D( const QVector<float>& data=QVector<float>(), int rowCount=0, int columnCount=0 );
+  UniformData2D();
+  UniformData2D( const QVector<qreal>& data,
+                 const QVector<qint32>& indexes,
+                 const QVector2D& timeRange );
   ~UniformData2D();
 
-  float minValue() const;
-  float maxValue() const;
+  qreal minValue() const;
+  qreal maxValue() const;
 
-  int rowCount() const;
-  void setRowCount( int );
+  const QVector<qint32>& indexes() const;
+  void setIndexes( const QVector<qint32>& indexes );
 
-  int columnCount() const;
-  void setColumnCount( int );
+  const QVector2D& timeRange() const;
+  void setTimeRange( const QVector2D& timeRange );
 
-  const QVector<float>& data() const;
-  void setData( const QVector<float>& data );
+  const QVector<qreal>& data() const;
+  void setData( const QVector<qreal>& data );
+
+  Q_DISABLE_COPY( UniformData2D );
 
 private:
 
-  int                    m_rowCount;
-  int                    m_columnCount;
-
-  float                 m_minValue;
-  float                 m_maxValue;
-  QVector<float>        m_data;
+  class UniformData2DPrivate;
+  QScopedPointer<UniformData2DPrivate>         _pd;
 };
 
 #endif // UNIFORMDATA2D_HPP
