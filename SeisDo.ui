@@ -116,7 +116,7 @@
      <x>0</x>
      <y>0</y>
      <width>778</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_F">
@@ -147,8 +147,8 @@
      <addaction name="actionEnglish"/>
     </widget>
     <addaction name="menuLanguage"/>
-    <addaction name="actionNext"/>
     <addaction name="actionPrevious"/>
+    <addaction name="actionNext"/>
    </widget>
    <widget class="QMenu" name="menu_H">
     <property name="title">
@@ -192,7 +192,7 @@
     <string>Next</string>
    </property>
    <property name="shortcut">
-    <string>F1</string>
+    <string>F3</string>
    </property>
   </action>
   <action name="actionPrevious">

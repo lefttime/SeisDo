@@ -16,5 +16,19 @@
 *.pro.user.*
 moc_*.cpp
 qrc_*.cpp
-Makefile
+Makefile*
 *-build-*
+debug
+release
+
+# VS
+ipch
+moc
+ui
+Win32
+*.sdf
+*.sln
+*.suo
+*.vc*
+*.pdb
+*.user

@@ -4,6 +4,7 @@
 #include <qwt_plot.h>
 
 class Scene;
+class DataManager;
 class CanvasHelper;
 
 class Canvas : public QwtPlot
@@ -15,8 +16,12 @@ public:
   Canvas( QWidget* parent );
   ~Canvas();
 
+  DataManager* dataManager() const;
+  void setDataManager( DataManager* dataManager );
+
 signals:
 
+  void changeDataSource();
   void infoPicking( const QString& );
 
 private:

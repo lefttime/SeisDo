@@ -16,6 +16,8 @@ public:
       m_minValue = qMin( m_minValue, val );
       m_maxValue = qMax( m_maxValue, val );
     }
+    qreal minVal = m_minValue;
+    qreal maxVal = m_maxValue;
   }
 
   UniformData2D*         m_self;

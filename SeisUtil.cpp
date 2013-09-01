@@ -45,20 +45,20 @@ qint32 SeisUtil::swap_int32(qint32 val)
   return (val << 16) | ((val >> 16) & 0xFFFF);
 }
 
-qreal SeisUtil::ibm2num(qint32 dataUint32 )
+qreal SeisUtil::ibm2num(quint32 dataUint32 )
 {
   qreal result ;
 
   // gain sign from first bit
-  double sign = (double)( dataUint32 >> 31) ;
+  double sign = (double)( dataUint32 >> 31);
 
   // gain exponent from first byte, last 7 bits
   double exp = (double)((dataUint32 >> 24) & 0x7f ) - 64;
 
   // gain mantissa from last 3 bytes
-  double frac = (double)( dataUint32 & 0x00ffffff ) ;
-  frac = frac / pow(2, 24);
-  result = (1 - 2*sign) * pow(16,exp) * frac;
+  double frac = (double)( dataUint32 & 0x00ffffff );
+  frac = frac / pow(2.0, 24);
+  result = (1 - 2*sign) * pow(16.0,exp) * frac;
 
   return result;
 }

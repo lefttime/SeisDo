@@ -3,6 +3,7 @@
 #include "Canvas.hpp"
 #include "Picker.hpp"
 #include "Tracker.hpp"
+#include "DataManager.hpp"
 
 #include <QtDebug>
 #include <qwt_plot_curve.h>
@@ -13,6 +14,7 @@ public:
 
   CanvasHelperPrivate( CanvasHelper* me, Canvas* target )
     : m_self ( me ), m_target( target ) {
+    m_curveList.clear();
   }
 
   ~CanvasHelperPrivate() {
@@ -29,33 +31,59 @@ public:
 
     QObject::connect( m_tracker, SIGNAL( moved( const QPointF& ) ),
                       m_self, SLOT( slotMove( const QPointF& ) ) );
-
-
-
-    sectionTest();
   }
 
-  void sectionTest() {
-    int xStart = 1;
-    int xStop = 250;
-    int xStep = 10;
-    int yStart = 0;
-    int yStop = 2000;
-    int yStep = 200;
-    for( int idx = xStart; idx <= xStop; ++idx ) {
-      QPolygonF samples;
-      for( int idy = yStart; idy < yStop; ++idy ) {
-        samples << QPointF( idx, idy );
+  void update() {
+    DataManager* dataManager = m_target->dataManager();
+    if( !dataManager ) {
+      return;
+    }
+
+    QVector2D timeRange(0, 2000);
+    QVector<qint32> indexes(100);
+    for( int idx = 0; idx < indexes.count(); ++idx ) {
+      indexes[idx] = idx;
+    }
+    drawSection( dataManager->prepareDataWithIndexes( indexes, timeRange ) );
+  }
+
+  void drawSection( UniformData2D& data2D ) {
+    qDeleteAll( m_curveList );
+    qreal minValue = data2D.minValue();
+    qreal maxValue = data2D.maxValue();
+    qreal absScale = qMax( qAbs( minValue ), qAbs( maxValue ) );
+
+    const QVector2D& timeRange = data2D.timeRange();
+    int colCount = data2D.indexes().count();
+    int rowCount = data2D.data().count() / colCount;
+    qreal sampleInterval = (timeRange.y()-timeRange.x())/rowCount;
+
+    int offset = 0;
+    for( int idx = 1; idx <= colCount; ++idx ) {
+      QPolygonF samples( rowCount );
+      for( int idy = 0; idy < rowCount; ++idy ) {
+        qreal val = data2D.data().at( offset++ );
+        qreal xpos = ((val + absScale)/(2*absScale) - 0.5)*3;
+        samples[idy] = QPointF( xpos+idx, idy*sampleInterval );
       }
       QwtPlotCurve* plotCurve = new QwtPlotCurve();
       plotCurve->setSamples( samples );
       plotCurve->attach( m_target );
+      m_curveList << plotCurve;
     }
 
-    m_target->setAxisScale( QwtPlot::xTop, xStart, xStop, xStep );
-    m_target->setAxisScale( QwtPlot::xBottom, xStart, xStop, xStep );
-    m_target->setAxisScale( QwtPlot::yLeft, yStop, yStart, yStep );
-    m_target->setAxisScale( QwtPlot::yRight, yStop, yStart, yStep );
+    int xStart = 1;
+    int xStop  = data2D.indexes().count();
+    int xStep  = 10;
+    int yStart = timeRange.x();
+    int yStop  = timeRange.y();
+    int yStep  = (timeRange.y()-timeRange.x())/10;
+    m_target->setAxisScale( QwtPlot::xTop,    xStart, xStop,  xStep );
+    m_target->setAxisScale( QwtPlot::xBottom, xStart, xStop,  xStep );
+    m_target->setAxisScale( QwtPlot::yLeft,   yStop,  yStart, yStep );
+    m_target->setAxisScale( QwtPlot::yRight,  yStop,  yStart, yStep );
+    m_target->replot();
+
   }
 
   CanvasHelper*         m_self;
@@ -63,6 +91,8 @@ public:
 
   Picker*               m_picker;
   Tracker*              m_tracker;
+
+  QList<QwtPlotCurve*>  m_curveList;
 };
 
 CanvasHelper::CanvasHelper( Canvas* target, QObject* parent )
@@ -83,6 +113,11 @@ bool CanvasHelper::isEditable() const
 void CanvasHelper::enableEdit(bool isEditable )
 {
   _pd->m_picker->setEnabled( isEditable );
+}
+
+void CanvasHelper::slotDataSourceChanged()
+{
+  _pd->update();
 }
 
 void CanvasHelper::slotMove( const QPointF& pos )

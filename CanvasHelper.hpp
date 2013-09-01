@@ -23,6 +23,7 @@ public:
 
 public slots:
 
+  void slotDataSourceChanged();
   void slotMove( const QPointF& );
 
 private:

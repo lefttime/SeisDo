@@ -39,28 +39,29 @@ public:
     m_bytesPerTrace = 240 + m_traceLength*4;
     m_totalTraces = (m_fileHandle->size() - 3200 - 400) / m_bytesPerTrace;
 
-//    sampleOutput( 0, 10 );
+    //sampleOutput( 0, 1 );
   }
 
-  void sampleOutput( qint32 startIdx, qint32 traceCount ) {
-    for( int idx = 0; idx < traceCount; ++idx ) {
-      qint32 offset = 3600 + (startIdx+idx)*m_bytesPerTrace;
-      qint32 paoIdx = SeisUtil::swap_int32( SeisUtil::readInt32At( m_fileHandle, offset + 8 ) );
-      qint32 daoIdx = SeisUtil::swap_int32( SeisUtil::readInt32At( m_fileHandle, offset + 12) );
+  //void sampleOutput( qint32 startIdx, qint32 traceCount ) {
+  //  for( int idx = 0; idx < traceCount; ++idx ) {
+  //    qint32 offset = 3600 + (startIdx+idx)*m_bytesPerTrace;
+  //    qint32 paoIdx = SeisUtil::swap_int32( SeisUtil::readInt32At( m_fileHandle, offset + 8 ) );
+  //    qint32 daoIdx = SeisUtil::swap_int32( SeisUtil::readInt32At( m_fileHandle, offset + 12) );
 
-      offset += 240;
-      qDebug() << "PaoIdx: " << paoIdx << ", DaoIdx: " << daoIdx;
-      qDebug() << "=======================================";
-      QVector<qreal> data = dataAtIndex( startIdx+idx, QVector2D(0,2000) );
-      for( int idy = 0; idy < 10; ++idy ) {
-        qDebug() << data.at( idy );
-      }
-      qDebug() << "";
-    }
-  }
+  //    offset += 240;
+  //    qDebug() << "PaoIdx: " << paoIdx << ", DaoIdx: " << daoIdx;
+  //    qDebug() << "=======================================";
+  //    QVector<qreal> data = dataAtIndex( startIdx+idx, QVector2D(0,20) );
+  //    for( int idy = 0; idy < 10; ++idy ) {
+  //      qDebug() << data.at( idy );
+  //    }
+  //    qDebug() << "";
+  //  }
+  //}
 
   QVector<qreal> dataAtIndex( int traceIndex, const QVector2D& timeRange ) {
-    int dataSize = (timeRange.y()-timeRange.x())/(m_sampleRate/1000);
+    int dataSize = (timeRange.y()-timeRange.x())/(m_sampleRate/1000)+1;
+    dataSize = qMin( dataSize, int(m_traceLength) );
     QVector<qreal> result( dataSize );
     qint32 offset = 3600 + traceIndex * m_bytesPerTrace + 240;
     for( int idx = 0; idx < dataSize; ++idx ) {

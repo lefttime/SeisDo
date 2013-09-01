@@ -14,7 +14,7 @@ namespace SeisUtil
 
   qint16 swap_int16( qint16 val );
   qint32 swap_int32( qint32 val );
-  qreal ibm2num( qint32 dataUint32 );
+  qreal ibm2num( quint32 dataUint32 );
 };
 
 #endif // SEISUTIL_HPP

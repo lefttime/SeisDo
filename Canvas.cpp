@@ -1,5 +1,6 @@
 #include "Canvas.hpp"
 
+#include "DataManager.hpp"
 #include "CanvasHelper.hpp"
 #include "LinearScaleEngine.hpp"
 
@@ -11,7 +12,7 @@ class Canvas::CanvasPrivate
 {
 public:
 
-  CanvasPrivate( Canvas* me ) : m_self( me ) {
+  CanvasPrivate( Canvas* me ) : m_self( me ), m_dataManager( 0 ) {
   }
 
   ~CanvasPrivate() {
@@ -29,6 +30,8 @@ public:
     canvas->setBorderRadius( 5 );
 
     m_helper = new CanvasHelper( m_self );
+    QObject::connect( m_self, SIGNAL( changeDataSource() ),
+                      m_helper, SLOT( slotDataSourceChanged() ) );
   }
 
   void initAxes() {
@@ -55,6 +58,7 @@ public:
 
   Canvas*         m_self;
   CanvasHelper*   m_helper;
+  DataManager*    m_dataManager;
 };
 
 Canvas::Canvas( QWidget* parent ) : QwtPlot( parent ), _pd( new CanvasPrivate( this ) )
@@ -64,4 +68,20 @@ Canvas::Canvas( QWidget* parent ) : QwtPlot( parent ), _pd( new CanvasPrivate( t
 
 Canvas::~Canvas()
 {
+}
+
+DataManager*Canvas::dataManager() const
+{
+  return _pd->m_dataManager;
+}
+
+void Canvas::setDataManager( DataManager* dataManager )
+{
+  if( _pd->m_dataManager != dataManager ) {
+    if( _pd->m_dataManager ) {
+      delete _pd->m_dataManager;
+    }
+    _pd->m_dataManager = dataManager;
+    emit changeDataSource();
+  }
 }

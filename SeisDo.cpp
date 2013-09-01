@@ -7,6 +7,7 @@
 #include "DataManager.hpp"
 
 #include <QDir>
+#include <QtDebug>
 #include <QFileDialog>
 
 class SeisDo::SeisDoPrivate
@@ -66,7 +67,8 @@ void SeisDo::on_actionOpenFile_triggered()
                                                    QDir::currentPath(),
                                                    tr("Seg-Y (*.sgy *.segy)"));
   if( !fileName.isEmpty() ) {
-    DataManager dataManager( fileName );
+    DataManager* dataManager = new DataManager( fileName );
+    canvas()->setDataManager( dataManager );
   }
 }
 
@@ -80,12 +82,12 @@ void SeisDo::on_actionEnglish_triggered()
   theTranslator->setLanguageType( Translator::English );
 }
 
-void SeisDo::on_actionNext_triggered()
-{
-  _pd->m_helper->next();
-}
-
 void SeisDo::on_actionPrevious_triggered()
 {
   _pd->m_helper->previous();
+}
+
+void SeisDo::on_actionNext_triggered()
+{
+  _pd->m_helper->next();
 }
