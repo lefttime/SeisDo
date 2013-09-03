@@ -13,6 +13,12 @@ public:
   SeisHelper( SeisDo* target, QObject* parent=0 );
   ~SeisHelper();
 
+  bool open();
+  void save();
+  void saveAs();
+  void load();
+  void close();
+
   void next();
   void previous();
 

@@ -1,5 +1,6 @@
 #include "Canvas.hpp"
 
+#include "Scene.hpp"
 #include "DataManager.hpp"
 #include "CanvasHelper.hpp"
 #include "LinearScaleEngine.hpp"
@@ -12,7 +13,8 @@ class Canvas::CanvasPrivate
 {
 public:
 
-  CanvasPrivate( Canvas* me ) : m_self( me ), m_dataManager( 0 ) {
+  CanvasPrivate( Canvas* me )
+    : m_self( me ), m_dataManager( 0 ), m_scene( 0 ) {
   }
 
   ~CanvasPrivate() {
@@ -57,6 +59,8 @@ public:
   }
 
   Canvas*         m_self;
+  Scene*          m_scene;
+
   CanvasHelper*   m_helper;
   DataManager*    m_dataManager;
 };
@@ -70,7 +74,28 @@ Canvas::~Canvas()
 {
 }
 
-DataManager*Canvas::dataManager() const
+void Canvas::setScene( Scene* scene )
+{
+  if( _pd->m_scene == scene ) {
+    return;
+  }
+
+  if( _pd->m_scene ) {
+    _pd->m_scene->_canvas = 0;
+    _pd->m_scene->updateAll();
+  }
+  if( _pd->m_scene = scene ) {
+    _pd->m_scene->_canvas = this;
+    _pd->m_scene->updateAll();
+  }
+}
+
+Scene* Canvas::scene() const
+{
+  return _pd->m_scene;
+}
+
+DataManager* Canvas::dataManager() const
 {
   return _pd->m_dataManager;
 }

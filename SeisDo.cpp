@@ -4,11 +4,6 @@
 #include "Canvas.hpp"
 #include "Translator.hpp"
 #include "SeisHelper.hpp"
-#include "DataManager.hpp"
-
-#include <QDir>
-#include <QtDebug>
-#include <QFileDialog>
 
 class SeisDo::SeisDoPrivate
 {
@@ -61,15 +56,23 @@ void SeisDo::changeEvent( QEvent* event )
   QWidget::changeEvent( event );
 }
 
-void SeisDo::on_actionOpenFile_triggered()
+void SeisDo::on_actionOpen_triggered()
 {
-  QString fileName = QFileDialog::getOpenFileName( this, tr("Open File"),
-                                                   QDir::currentPath(),
-                                                   tr("Seg-Y (*.sgy *.segy)"));
-  if( !fileName.isEmpty() ) {
-    DataManager* dataManager = new DataManager( fileName );
-    canvas()->setDataManager( dataManager );
+  if( _pd->m_helper->open() ) {
+    _pd->m_ui.actionOpen->setEnabled( false );
+    _pd->m_ui.actionSave->setEnabled( true );
+    _pd->m_ui.actionSaveAs->setEnabled( true );
+    _pd->m_ui.actionClose->setEnabled( true );
   }
+}
+
+void SeisDo::on_actionClose_triggered()
+{
+  _pd->m_helper->close();
+  _pd->m_ui.actionOpen->setEnabled( true );
+  _pd->m_ui.actionSave->setEnabled( false );
+  _pd->m_ui.actionSaveAs->setEnabled( false );
+  _pd->m_ui.actionClose->setEnabled( false );
 }
 
 void SeisDo::on_actionChinese_triggered()

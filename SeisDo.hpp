@@ -23,7 +23,8 @@ protected:
 
 private slots:
 
-  void on_actionOpenFile_triggered();
+  void on_actionOpen_triggered();
+  void on_actionClose_triggered();
 
   void on_actionChinese_triggered();
   void on_actionEnglish_triggered();

@@ -16,6 +16,9 @@ public:
   Canvas( QWidget* parent );
   ~Canvas();
 
+  void setScene( Scene* );
+  Scene* scene() const;
+
   DataManager* dataManager() const;
   void setDataManager( DataManager* dataManager );
 

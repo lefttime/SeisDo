@@ -1,10 +1,14 @@
 #include "SeisHelper.hpp"
 
+#include "Scene.hpp"
 #include "SeisDo.hpp"
 #include "Canvas.hpp"
+#include "DataManager.hpp"
 
+#include <QDir>
 #include <QLabel>
 #include <QStatusBar>
+#include <QFileDialog>
 
 class SeisHelper::SeisHelperPrivate
 {
@@ -14,6 +18,9 @@ public:
   }
 
   void init() {
+    m_scene = new Scene( m_self );
+    m_target->canvas()->setScene( m_scene );
+
     initStatusBar();
   }
 
@@ -36,6 +43,8 @@ public:
 
   SeisHelper*         m_self;
   SeisDo*             m_target;
+  Scene*              m_scene;
+
   QLabel*             m_pickerInfo;
   QLabel*             m_segyfileInfo;
   QLabel*             m_datafileInfo;
@@ -49,6 +58,40 @@ SeisHelper::SeisHelper( SeisDo* target, QObject* parent )
 
 SeisHelper::~SeisHelper()
 {
+}
+
+bool SeisHelper::open()
+{
+  QString fileName =
+    QFileDialog::getOpenFileName( _pd->m_target, tr( "Open File" ),
+                                  QDir::currentPath(),
+                                  tr( "Seg-Y (*.sgy *.segy)" ) );
+  if( !fileName.isEmpty() ) {
+    DataManager* dataManager = new DataManager( fileName );
+    _pd->m_target->canvas()->setDataManager( dataManager );
+    return true;
+  }
+
+  return false;
+}
+
+void SeisHelper::save()
+{
+}
+
+void SeisHelper::saveAs()
+{
+}
+
+void SeisHelper::load()
+{
+}
+
+void SeisHelper::close()
+{
+  _pd->m_target->canvas()->setScene( 0 );
+  delete _pd->m_scene;
+  _pd->m_scene = 0;
 }
 
 void SeisHelper::next()

@@ -2,7 +2,9 @@
 #define SCENE_HPP
 
 #include <QObject>
-#include "Shared.hpp"
+
+class Canvas;
+class QwtPlotItem;
 
 class Scene : public QObject
 {
@@ -13,13 +15,20 @@ public:
   Scene( QObject* parent=0 );
   ~Scene();
 
-  const PlotConfig& plotConfig() const;
-  void setPlotConfig( const PlotConfig& );
+  void addItem( QwtPlotItem* );
+  void removeItem( QwtPlotItem* );
+
+private:
+
+  void updateAll();
 
 private:
 
   class ScenePrivate;
   QScopedPointer<ScenePrivate>         _pd;
+
+  Canvas* _canvas;
+  friend class Canvas;
 };
 
 #endif // SCENE_HPP
