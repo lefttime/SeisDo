@@ -22,7 +22,9 @@ HEADERS += Canvas.hpp \
            UniformData2D.hpp \
 		   LinearScaleEngine.hpp \
     Tracker.hpp \
-    Picker.hpp
+    Picker.hpp \
+    StandardItemModel.hpp \
+    StandardItem.hpp
 FORMS += SeisDo.ui
 SOURCES += Canvas.cpp \
            CanvasHelper.cpp \
@@ -36,6 +38,8 @@ SOURCES += Canvas.cpp \
            UniformData2D.cpp \
 		   LinearScaleEngine.cpp \
     Tracker.cpp \
-    Picker.cpp
+    Picker.cpp \
+    StandardItemModel.cpp \
+    StandardItem.cpp
 RESOURCES += SeisDo.qrc
 TRANSLATIONS += translations/SeisDo_en.ts translations/SeisDo_zh.ts

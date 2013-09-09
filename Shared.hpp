@@ -1,18 +1,13 @@
 #ifndef SHARED_HPP
 #define SHARED_HPP
 
-#include <QRect>
-
-struct PlotConfig {
-  QRect _plotArea;
-};
+#include <QVector>
+#include <QVector2D>
 
 struct SectionConfig {
-  int _plotTraces;
-  int _beginTrace;
-  int _endTrace;
-  int _startTime;
-  int _stopTime;
+  QVector<qint32> _indexes;
+  QVector2D       _timeRange;
+  qint32          _traceCount;
 };
 
 #endif // SHARED_HPP

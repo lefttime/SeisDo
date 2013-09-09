@@ -24,7 +24,7 @@ public:
 
 signals:
 
-  void changeDataSource();
+  void dataChanged();
   void infoPicking( const QString& );
 
 private:

@@ -32,7 +32,7 @@ public:
     canvas->setBorderRadius( 5 );
 
     m_helper = new CanvasHelper( m_self );
-    QObject::connect( m_self, SIGNAL( changeDataSource() ),
+    QObject::connect( m_self, SIGNAL( dataChanged() ),
                       m_helper, SLOT( slotDataSourceChanged() ) );
   }
 
@@ -107,6 +107,10 @@ void Canvas::setDataManager( DataManager* dataManager )
       delete _pd->m_dataManager;
     }
     _pd->m_dataManager = dataManager;
-    emit changeDataSource();
+    if( _pd->m_dataManager ) {
+      QObject::connect( _pd->m_dataManager, SIGNAL( dataChanged() ),
+                        this,               SIGNAL( dataChanged() ) );
+    }
+    emit dataChanged();
   }
 }

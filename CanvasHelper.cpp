@@ -39,21 +39,25 @@ public:
       return;
     }
 
-    QVector2D timeRange(0, 2000);
-    QVector<qint32> indexes(100);
-    for( int idx = 0; idx < indexes.count(); ++idx ) {
-      indexes[idx] = idx;
-    }
+    const QVector2D& timeRange = dataManager->timeRange();
+    const QVector<qint32>& indexes = dataManager->indexes();
     drawSection( dataManager->prepareDataWithIndexes( indexes, timeRange ) );
   }
 
-  void drawSection( UniformData2D& data2D ) {
+  void drawSection( const UniformData2D& data2D ) {
+    DataManager* dataManager = m_target->dataManager();
+    foreach( QwtPlotCurve* curve, m_curveList ) {
+      curve->detach();
+    }
     qDeleteAll( m_curveList );
+    m_curveList.clear();
+
     qreal minValue = data2D.minValue();
     qreal maxValue = data2D.maxValue();
     qreal absScale = qMax( qAbs( minValue ), qAbs( maxValue ) );
 
     const QVector2D& timeRange = data2D.timeRange();
+    const QVector<qint32>& indexes = data2D.indexes();
     int colCount = data2D.indexes().count();
     int rowCount = data2D.data().count() / colCount;
     qreal sampleInterval = (timeRange.y()-timeRange.x())/rowCount;
@@ -64,7 +68,7 @@ public:
       for( int idy = 0; idy < rowCount; ++idy ) {
         qreal val = data2D.data().at( offset++ );
         qreal xpos = ((val + absScale)/(2*absScale) - 0.5)*3;
-        samples[idy] = QPointF( xpos+idx, idy*sampleInterval );
+        samples[idy] = QPointF( xpos+idx+indexes.first(), idy*sampleInterval );
       }
       QwtPlotCurve* plotCurve = new QwtPlotCurve();
       plotCurve->setSamples( samples );
@@ -72,8 +76,8 @@ public:
       m_curveList << plotCurve;
     }
 
-    int xStart = 1;
-    int xStop  = data2D.indexes().count();
+    int xStart = data2D.indexes().first() + 1;
+    int xStop  = data2D.indexes().first() + dataManager->traceCount();
     int xStep  = 10;
     int yStart = timeRange.x();
     int yStop  = timeRange.y();

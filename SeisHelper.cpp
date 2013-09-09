@@ -3,10 +3,12 @@
 #include "Scene.hpp"
 #include "SeisDo.hpp"
 #include "Canvas.hpp"
+#include "Shared.hpp"
 #include "DataManager.hpp"
 
 #include <QDir>
 #include <QLabel>
+#include <QFileInfo>
 #include <QStatusBar>
 #include <QFileDialog>
 
@@ -15,6 +17,12 @@ class SeisHelper::SeisHelperPrivate
 public:
 
   SeisHelperPrivate( SeisHelper* me, SeisDo* target ) : m_self( me ), m_target( target ) {
+    m_config._traceCount = 200;
+    m_config._indexes.resize( m_config._traceCount );
+    for( int idx = 0; idx < m_config._traceCount; ++idx ) {
+      m_config._indexes[idx] = idx;
+    }
+    m_config._timeRange = QVector2D(0, 2000);
   }
 
   void init() {
@@ -26,7 +34,7 @@ public:
 
   void initStatusBar() {
     m_pickerInfo = new QLabel( tr( "DaoNo.: " ) + tr( "Offset: " ) + tr( "Time: " ) );
-    m_segyfileInfo = new QLabel( tr( "SEGY file:" ) );
+    m_segyfileInfo = new QLabel( QObject::tr( "SEGY file:" ) );
     m_datafileInfo = new QLabel( tr( "FirstArrival file:" ) );
 
     m_pickerInfo->setFrameShape( QLabel::StyledPanel );
@@ -41,9 +49,18 @@ public:
                       m_pickerInfo, SLOT( setText( const QString& ) ) );
   }
 
+  void setSegyFileInfo( const QString& fileName ) {
+    QFileInfo fileInfo( fileName );
+    m_segyfileInfo->setText( QObject::tr( "SEGY file:" ) + fileInfo.fileName() );
+    m_segyfileInfo->setToolTip( fileName );
+
+  }
+
   SeisHelper*         m_self;
   SeisDo*             m_target;
   Scene*              m_scene;
+
+  SectionConfig       m_config;
 
   QLabel*             m_pickerInfo;
   QLabel*             m_segyfileInfo;
@@ -66,8 +83,12 @@ bool SeisHelper::open()
     QFileDialog::getOpenFileName( _pd->m_target, tr( "Open File" ),
                                   QDir::currentPath(),
                                   tr( "Seg-Y (*.sgy *.segy)" ) );
+  _pd->setSegyFileInfo( fileName );
   if( !fileName.isEmpty() ) {
     DataManager* dataManager = new DataManager( fileName );
+    dataManager->setIndexes( _pd->m_config._indexes );
+    dataManager->setTimeRange( _pd->m_config._timeRange );
+    dataManager->setTraceCount( _pd->m_config._traceCount );
     _pd->m_target->canvas()->setDataManager( dataManager );
     return true;
   }
@@ -96,10 +117,37 @@ void SeisHelper::close()
 
 void SeisHelper::next()
 {
-//  _pd->m_data = _pd->m_dataManager.prepareData( 1 );
+  DataManager* dataManager = _pd->m_target->canvas()->dataManager();
+  if( dataManager ) {
+    qint32 lastIndex = _pd->m_config._indexes.last();
+    if( lastIndex < dataManager->totalTraces()-1 ) {
+      qint32 validCount = qMin( dataManager->totalTraces()-lastIndex-1, _pd->m_config._traceCount );
+      QVector<qint32> indexes;
+      for( int idx = 0; idx < validCount; ++idx ) {
+        qint32 traceIdx = _pd->m_config._indexes.at( idx ) + _pd->m_config._traceCount;
+        if( traceIdx > dataManager->totalTraces()-1 ) {
+          break;
+        }
+        indexes << traceIdx;
+      }
+      _pd->m_config._indexes = indexes;
+      dataManager->setIndexes( indexes );
+    }
+  }
 }
 
 void SeisHelper::previous()
 {
-//  _pd->m_data = _pd->m_dataManager.prepareData( 0 );
+  DataManager* dataManager = _pd->m_target->canvas()->dataManager();
+  qint32 startIndex = _pd->m_config._indexes.first();
+  if( dataManager && startIndex ) {
+    startIndex = qMax( 0, startIndex-_pd->m_config._traceCount );
+    qint32 validCount = qMin( dataManager->totalTraces(), _pd->m_config._traceCount );
+    QVector<qint32> indexes;
+    for( int idx = 0; idx < validCount; ++idx ) {
+      indexes << startIndex + idx;
+    }
+    _pd->m_config._indexes = indexes;
+    dataManager->setIndexes( indexes );
+  }
 }

@@ -1,5 +1,6 @@
 #include "DataManager.hpp"
 
+#include "Shared.hpp"
 #include "SeisUtil.hpp"
 
 #include <QFile>
@@ -29,6 +30,13 @@ public:
       return false;
     }
     rebuildIndex();
+
+    m_config._timeRange = QVector2D(0, 2000);
+    m_config._indexes.resize( 200 );
+    for( int idx = 0; idx < m_config._indexes.count(); ++idx ) {
+      m_config._indexes[idx] = idx;
+    }
+
     return true;
   }
 
@@ -39,25 +47,8 @@ public:
     m_bytesPerTrace = 240 + m_traceLength*4;
     m_totalTraces = (m_fileHandle->size() - 3200 - 400) / m_bytesPerTrace;
 
-    //sampleOutput( 0, 1 );
+    qDebug() << "totalTraces: " << m_totalTraces;
   }
-
-  //void sampleOutput( qint32 startIdx, qint32 traceCount ) {
-  //  for( int idx = 0; idx < traceCount; ++idx ) {
-  //    qint32 offset = 3600 + (startIdx+idx)*m_bytesPerTrace;
-  //    qint32 paoIdx = SeisUtil::swap_int32( SeisUtil::readInt32At( m_fileHandle, offset + 8 ) );
-  //    qint32 daoIdx = SeisUtil::swap_int32( SeisUtil::readInt32At( m_fileHandle, offset + 12) );
-
-  //    offset += 240;
-  //    qDebug() << "PaoIdx: " << paoIdx << ", DaoIdx: " << daoIdx;
-  //    qDebug() << "=======================================";
-  //    QVector<qreal> data = dataAtIndex( startIdx+idx, QVector2D(0,20) );
-  //    for( int idy = 0; idy < 10; ++idy ) {
-  //      qDebug() << data.at( idy );
-  //    }
-  //    qDebug() << "";
-  //  }
-  //}
 
   QVector<qreal> dataAtIndex( int traceIndex, const QVector2D& timeRange ) {
     int dataSize = (timeRange.y()-timeRange.x())/(m_sampleRate/1000)+1;
@@ -80,6 +71,8 @@ public:
   qint16               m_formatCode;
   qint16               m_bytesPerTrace;
   qint32               m_totalTraces;
+
+  SectionConfig        m_config;
 };
 
 DataManager::DataManager( const QString& fileName, QObject* parent )
@@ -90,6 +83,51 @@ DataManager::DataManager( const QString& fileName, QObject* parent )
 
 DataManager::~DataManager()
 {
+}
+
+qint32 DataManager::totalTraces() const
+{
+  return _pd->m_totalTraces;
+}
+
+const QVector<qint32>&DataManager::indexes() const
+{
+  return _pd->m_config._indexes;
+}
+
+void DataManager::setIndexes( const QVector<qint32>& indexes )
+{
+  if( _pd->m_config._indexes != indexes ) {
+    _pd->m_config._indexes = indexes;
+    emit dataChanged();
+  }
+}
+
+const QVector2D& DataManager::timeRange() const
+{
+  return _pd->m_config._timeRange;
+}
+
+void DataManager::setTimeRange( const QVector2D& timeRange )
+{
+  if( _pd->m_config._timeRange != timeRange ) {
+    _pd->m_config._timeRange = timeRange;
+    emit dataChanged();
+  }
+
+}
+
+qint32 DataManager::traceCount() const
+{
+  return _pd->m_config._traceCount;
+}
+
+void DataManager::setTraceCount( qint32 traceCount )
+{
+  if( _pd->m_config._traceCount != traceCount ) {
+    _pd->m_config._traceCount = traceCount;
+    emit dataChanged();
+  }
 }
 
 UniformData2D DataManager::prepareDataWithIndexes( const QVector<qint32>& indexes,
