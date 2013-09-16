@@ -5,6 +5,7 @@
 #include "Canvas.hpp"
 #include "Shared.hpp"
 #include "DataManager.hpp"
+#include "SectionConfigEditor.hpp"
 
 #include <QDir>
 #include <QLabel>
@@ -17,12 +18,13 @@ class SeisHelper::SeisHelperPrivate
 public:
 
   SeisHelperPrivate( SeisHelper* me, SeisDo* target ) : m_self( me ), m_target( target ) {
-    m_config._traceCount = 200;
-    m_config._indexes.resize( m_config._traceCount );
-    for( int idx = 0; idx < m_config._traceCount; ++idx ) {
-      m_config._indexes[idx] = idx;
+    m_sectionConfig._traceCount = 300;
+    m_sectionConfig._timeInterval = 10;
+    m_sectionConfig._indexes.resize( m_sectionConfig._traceCount );
+    for( int idx = 0; idx < m_sectionConfig._traceCount; ++idx ) {
+      m_sectionConfig._indexes[idx] = idx;
     }
-    m_config._timeRange = QVector2D(0, 2000);
+    m_sectionConfig._timeRange = QVector2D(0, 2000);
   }
 
   void init() {
@@ -60,7 +62,7 @@ public:
   SeisDo*             m_target;
   Scene*              m_scene;
 
-  SectionConfig       m_config;
+  SectionConfig       m_sectionConfig;
 
   QLabel*             m_pickerInfo;
   QLabel*             m_segyfileInfo;
@@ -77,18 +79,34 @@ SeisHelper::~SeisHelper()
 {
 }
 
+const SectionConfig&SeisHelper::sectionConfig() const
+{
+  return _pd->m_sectionConfig;
+}
+
+void SeisHelper::setSectionConfig( const SectionConfig& sectionConfig )
+{
+  DataManager* dataManager = _pd->m_target->canvas()->dataManager();
+  if( dataManager ) {
+    if( _pd->m_sectionConfig._indexes != sectionConfig._indexes ||
+        _pd->m_sectionConfig._timeRange != sectionConfig._timeRange ||
+        _pd->m_sectionConfig._traceCount != sectionConfig._traceCount ) {
+      dataManager->setSectionConfig( sectionConfig );
+    }
+  }
+  _pd->m_sectionConfig = sectionConfig;
+}
+
 bool SeisHelper::open()
 {
   QString fileName =
-    QFileDialog::getOpenFileName( _pd->m_target, tr( "Open File" ),
-                                  QDir::currentPath(),
-                                  tr( "Seg-Y (*.sgy *.segy)" ) );
+      QFileDialog::getOpenFileName( _pd->m_target, tr( "Open File" ),
+                                    QDir::currentPath(),
+                                    tr( "Seg-Y (*.sgy *.segy)" ) );
   _pd->setSegyFileInfo( fileName );
   if( !fileName.isEmpty() ) {
     DataManager* dataManager = new DataManager( fileName );
-    dataManager->setIndexes( _pd->m_config._indexes );
-    dataManager->setTimeRange( _pd->m_config._timeRange );
-    dataManager->setTraceCount( _pd->m_config._traceCount );
+    dataManager->setSectionConfig( _pd->m_sectionConfig );
     _pd->m_target->canvas()->setDataManager( dataManager );
     return true;
   }
@@ -119,19 +137,19 @@ void SeisHelper::next()
 {
   DataManager* dataManager = _pd->m_target->canvas()->dataManager();
   if( dataManager ) {
-    qint32 lastIndex = _pd->m_config._indexes.last();
+    qint32 lastIndex = _pd->m_sectionConfig._indexes.last();
     if( lastIndex < dataManager->totalTraces()-1 ) {
-      qint32 validCount = qMin( dataManager->totalTraces()-lastIndex-1, _pd->m_config._traceCount );
+      qint32 validCount = qMin( dataManager->totalTraces()-lastIndex-1, _pd->m_sectionConfig._traceCount );
       QVector<qint32> indexes;
       for( int idx = 0; idx < validCount; ++idx ) {
-        qint32 traceIdx = _pd->m_config._indexes.at( idx ) + _pd->m_config._traceCount;
+        qint32 traceIdx = _pd->m_sectionConfig._indexes.at( idx ) + _pd->m_sectionConfig._traceCount;
         if( traceIdx > dataManager->totalTraces()-1 ) {
           break;
         }
         indexes << traceIdx;
       }
-      _pd->m_config._indexes = indexes;
-      dataManager->setIndexes( indexes );
+      _pd->m_sectionConfig._indexes = indexes;
+      dataManager->setSectionConfig( _pd->m_sectionConfig );
     }
   }
 }
@@ -139,15 +157,23 @@ void SeisHelper::next()
 void SeisHelper::previous()
 {
   DataManager* dataManager = _pd->m_target->canvas()->dataManager();
-  qint32 startIndex = _pd->m_config._indexes.first();
+  qint32 startIndex = _pd->m_sectionConfig._indexes.first();
   if( dataManager && startIndex ) {
-    startIndex = qMax( 0, startIndex-_pd->m_config._traceCount );
-    qint32 validCount = qMin( dataManager->totalTraces(), _pd->m_config._traceCount );
+    startIndex = qMax( 0, startIndex-_pd->m_sectionConfig._traceCount );
+    qint32 validCount = qMin( dataManager->totalTraces(), _pd->m_sectionConfig._traceCount );
     QVector<qint32> indexes;
     for( int idx = 0; idx < validCount; ++idx ) {
       indexes << startIndex + idx;
     }
-    _pd->m_config._indexes = indexes;
-    dataManager->setIndexes( indexes );
+    _pd->m_sectionConfig._indexes = indexes;
+    dataManager->setSectionConfig( _pd->m_sectionConfig );
+  }
+}
+
+void SeisHelper::sectionEdit()
+{
+  SectionConfigEditor editor( _pd->m_sectionConfig, _pd->m_target );
+  if( editor.exec() == QDialog::Accepted ) {
+    setSectionConfig( editor.config() );
   }
 }

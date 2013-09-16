@@ -7,6 +7,7 @@
 struct SectionConfig {
   QVector<qint32> _indexes;
   QVector2D       _timeRange;
+  qint32          _timeInterval;
   qint32          _traceCount;
 };
 

@@ -31,6 +31,7 @@ private slots:
 
   void on_actionPrevious_triggered();
   void on_actionNext_triggered();
+  void on_actionOption_triggered();
 
 private:
 

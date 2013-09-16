@@ -50,9 +50,15 @@ public:
     qDebug() << "totalTraces: " << m_totalTraces;
   }
 
-  QVector<qreal> dataAtIndex( int traceIndex, const QVector2D& timeRange ) {
+  QVector<qreal> dataAtIndex( qint32 traceIndex, const QVector2D& timeRange,
+                              qint32 timeInterval=2 ) {
+    Q_UNUSED( timeInterval );
+//    qint32 sampleRate = qMax( 1, m_sampleRage / 1000 );
+//    qint32 interval = qMax( 1, qreal(timeInterval) / sampleRate );
+
     int dataSize = (timeRange.y()-timeRange.x())/(m_sampleRate/1000)+1;
     dataSize = qMin( dataSize, int(m_traceLength) );
+
     QVector<qreal> result( dataSize );
     qint32 offset = 3600 + traceIndex * m_bytesPerTrace + 240;
     for( int idx = 0; idx < dataSize; ++idx ) {
@@ -90,44 +96,15 @@ qint32 DataManager::totalTraces() const
   return _pd->m_totalTraces;
 }
 
-const QVector<qint32>&DataManager::indexes() const
+const SectionConfig& DataManager::sectionConfig() const
 {
-  return _pd->m_config._indexes;
+  return _pd->m_config;
 }
 
-void DataManager::setIndexes( const QVector<qint32>& indexes )
+void DataManager::setSectionConfig( const SectionConfig& sectionConfig )
 {
-  if( _pd->m_config._indexes != indexes ) {
-    _pd->m_config._indexes = indexes;
-    emit dataChanged();
-  }
-}
-
-const QVector2D& DataManager::timeRange() const
-{
-  return _pd->m_config._timeRange;
-}
-
-void DataManager::setTimeRange( const QVector2D& timeRange )
-{
-  if( _pd->m_config._timeRange != timeRange ) {
-    _pd->m_config._timeRange = timeRange;
-    emit dataChanged();
-  }
-
-}
-
-qint32 DataManager::traceCount() const
-{
-  return _pd->m_config._traceCount;
-}
-
-void DataManager::setTraceCount( qint32 traceCount )
-{
-  if( _pd->m_config._traceCount != traceCount ) {
-    _pd->m_config._traceCount = traceCount;
-    emit dataChanged();
-  }
+  _pd->m_config = sectionConfig;
+  emit dataChanged();
 }
 
 UniformData2D DataManager::prepareDataWithIndexes( const QVector<qint32>& indexes,

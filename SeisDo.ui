@@ -152,8 +152,11 @@
      <addaction name="actionEnglish"/>
     </widget>
     <addaction name="menuLanguage"/>
+    <addaction name="separator"/>
     <addaction name="actionPrevious"/>
     <addaction name="actionNext"/>
+    <addaction name="separator"/>
+    <addaction name="actionOption"/>
    </widget>
    <widget class="QMenu" name="menu_H">
     <property name="title">
@@ -240,6 +243,11 @@
    </property>
    <property name="text">
     <string>Save &amp;As...</string>
+   </property>
+  </action>
+  <action name="actionOption">
+   <property name="text">
+    <string>&amp;Option</string>
    </property>
   </action>
  </widget>

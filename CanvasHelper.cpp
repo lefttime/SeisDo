@@ -2,6 +2,7 @@
 
 #include "Canvas.hpp"
 #include "Picker.hpp"
+#include "Shared.hpp"
 #include "Tracker.hpp"
 #include "DataManager.hpp"
 
@@ -39,8 +40,9 @@ public:
       return;
     }
 
-    const QVector2D& timeRange = dataManager->timeRange();
-    const QVector<qint32>& indexes = dataManager->indexes();
+    const SectionConfig& config = dataManager->sectionConfig();
+    const QVector2D& timeRange = config._timeRange;
+    const QVector<qint32>& indexes = config._indexes;
     drawSection( dataManager->prepareDataWithIndexes( indexes, timeRange ) );
   }
 
@@ -76,8 +78,9 @@ public:
       m_curveList << plotCurve;
     }
 
+    const SectionConfig& config = dataManager->sectionConfig();
     int xStart = data2D.indexes().first() + 1;
-    int xStop  = data2D.indexes().first() + dataManager->traceCount();
+    int xStop  = data2D.indexes().first() + config._traceCount;
     int xStep  = 10;
     int yStart = timeRange.x();
     int yStop  = timeRange.y();
