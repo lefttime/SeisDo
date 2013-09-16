@@ -88,9 +88,7 @@ void SeisHelper::setSectionConfig( const SectionConfig& sectionConfig )
 {
   DataManager* dataManager = _pd->m_target->canvas()->dataManager();
   if( dataManager ) {
-    if( _pd->m_sectionConfig._indexes != sectionConfig._indexes ||
-        _pd->m_sectionConfig._timeRange != sectionConfig._timeRange ||
-        _pd->m_sectionConfig._traceCount != sectionConfig._traceCount ) {
+    if( _pd->m_sectionConfig != sectionConfig ) {
       dataManager->setSectionConfig( sectionConfig );
     }
   }
