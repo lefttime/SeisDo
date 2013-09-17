@@ -8,7 +8,7 @@ class SectionConfigEditor::SectionConfigEditorPrivate
 public:
 
   SectionConfigEditorPrivate( SectionConfigEditor* me,
-                              const SectionConfig& config )
+                              const SliceConfig& config )
     : m_self( me ), m_config( config ) {
     m_ui.setupUi( m_self );
   }
@@ -30,10 +30,10 @@ public:
   SectionConfigEditor*         m_self;
   Ui::SectionConfigEditor      m_ui;
 
-  SectionConfig                m_config;
+  SliceConfig                  m_config;
 };
 
-SectionConfigEditor::SectionConfigEditor( const SectionConfig& config,
+SectionConfigEditor::SectionConfigEditor( const SliceConfig& config,
                                           QWidget* parent )
   : QDialog( parent ), _pd( new SectionConfigEditorPrivate( this, config ) )
 {
@@ -44,7 +44,7 @@ SectionConfigEditor::~SectionConfigEditor()
 {
 }
 
-const SectionConfig&SectionConfigEditor::config() const
+const SliceConfig& SectionConfigEditor::config() const
 {
   return _pd->m_config;
 }

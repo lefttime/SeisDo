@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-struct SectionConfig;
+struct SliceConfig;
 
 class SectionConfigEditor : public QDialog
 {
@@ -11,11 +11,11 @@ class SectionConfigEditor : public QDialog
   
 public:
 
-  explicit SectionConfigEditor( const SectionConfig& config,
+  explicit SectionConfigEditor(const SliceConfig& config,
                                 QWidget* parent );
   ~SectionConfigEditor();
 
-  const SectionConfig& config() const;
+  const SliceConfig& config() const;
 
 protected:
 

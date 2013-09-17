@@ -27,8 +27,6 @@ public:
   const QVector<qreal>& data() const;
   void setData( const QVector<qreal>& data );
 
-  Q_DISABLE_COPY( UniformData2D );
-
 private:
 
   class UniformData2DPrivate;

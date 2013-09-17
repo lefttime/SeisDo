@@ -1,23 +1,16 @@
 #ifndef TRACEITEM_HPP
 #define TRACEITEM_HPP
 
-#include "AbstractShapeItem.hpp"
+#include <qwt_plot_curve.h>
 
-class UniformData2D;
-
-class TraceItem : public AbstractShapeItem
+class TraceItem : public QwtPlotCurve
 {
 public:
 
-  TraceItem( const PlotConfig& plotConfig, const UniformData2D& data );
+  TraceItem();
   ~TraceItem();
 
-  float scale() const;
-  void setScale( float );
-
-protected:
-
-  virtual void doPaint( QPainter* painter );
+  void translate( const QPointF& );
 
 private:
 

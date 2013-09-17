@@ -5,7 +5,7 @@
 
 #include "UniformData2D.hpp"
 
-struct SectionConfig;
+struct SliceConfig;
 
 class DataManager : public QObject
 {
@@ -18,11 +18,12 @@ public:
 
   qint32 totalTraces() const;
 
-  const SectionConfig& sectionConfig() const;
-  void setSectionConfig( const SectionConfig& );
+  const SliceConfig& sliceConfig() const;
+  void setSliceConfig( const SliceConfig& );
 
   UniformData2D prepareDataWithIndexes( const QVector<qint32>& indexes,
-                                        const QVector2D& timeRange );
+                                        const QVector2D& timeRange,
+                                        qint32 timeInterval=2 );
 
 signals:
 

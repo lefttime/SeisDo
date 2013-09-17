@@ -25,7 +25,9 @@ HEADERS += Canvas.hpp \
     Picker.hpp \
     StandardItemModel.hpp \
     StandardItem.hpp \
-    SectionConfigEditor.hpp
+    SectionConfigEditor.hpp \
+    TraceItem.hpp \
+    SliceItem.hpp
 FORMS += SeisDo.ui \
     SectionConfigEditor.ui
 SOURCES += Canvas.cpp \
@@ -43,6 +45,8 @@ SOURCES += Canvas.cpp \
     Picker.cpp \
     StandardItemModel.cpp \
     StandardItem.cpp \
-    SectionConfigEditor.cpp
+    SectionConfigEditor.cpp \
+    TraceItem.cpp \
+    SliceItem.cpp
 RESOURCES += SeisDo.qrc
 TRANSLATIONS += translations/SeisDo_en.ts translations/SeisDo_zh.ts

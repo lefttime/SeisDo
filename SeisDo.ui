@@ -163,7 +163,14 @@
      <string>&amp;Help</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menu_E">
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="actionEnablePicking"/>
+   </widget>
    <addaction name="menu_F"/>
+   <addaction name="menu_E"/>
    <addaction name="menu_B"/>
    <addaction name="menu_L"/>
    <addaction name="menu_T"/>
@@ -248,6 +255,14 @@
   <action name="actionOption">
    <property name="text">
     <string>&amp;Option</string>
+   </property>
+  </action>
+  <action name="actionEnablePicking">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable Picking</string>
    </property>
   </action>
  </widget>

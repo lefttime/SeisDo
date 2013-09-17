@@ -95,6 +95,11 @@ Scene* Canvas::scene() const
   return _pd->m_scene;
 }
 
+void Canvas::enablePicking( bool enabled )
+{
+  _pd->m_helper->enableEdit( enabled );
+}
+
 DataManager* Canvas::dataManager() const
 {
   return _pd->m_dataManager;
@@ -113,4 +118,10 @@ void Canvas::setDataManager( DataManager* dataManager )
     }
     emit dataChanged();
   }
+}
+
+void Canvas::changeEvent( QEvent* event )
+{
+  this->update();
+  QFrame::changeEvent( event );
 }

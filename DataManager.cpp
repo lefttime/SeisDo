@@ -52,18 +52,22 @@ public:
 
   QVector<qreal> dataAtIndex( qint32 traceIndex, const QVector2D& timeRange,
                               qint32 timeInterval=2 ) {
-    Q_UNUSED( timeInterval );
-//    qint32 sampleRate = qMax( 1, m_sampleRage / 1000 );
-//    qint32 interval = qMax( 1, qreal(timeInterval) / sampleRate );
+    qint32 sampleRate = qMax( 1, m_sampleRate / 1000 );
+    qint32 interval = qMax( 1, qint32(qreal(timeInterval) / sampleRate) );
 
-    int dataSize = (timeRange.y()-timeRange.x())/(m_sampleRate/1000)+1;
-    dataSize = qMin( dataSize, int(m_traceLength) );
+    int idx = 0;
+    int startIdx= timeRange.x() / sampleRate;
+    int stopIdx = timeRange.y() / sampleRate;
 
-    QVector<qreal> result( dataSize );
+    QVector<qreal> result;
     qint32 offset = 3600 + traceIndex * m_bytesPerTrace + 240;
-    for( int idx = 0; idx < dataSize; ++idx ) {
+    for( idx = startIdx; idx <= stopIdx; idx += interval ) {
       qint32 val = SeisUtil::readInt32At( m_fileHandle, offset + idx * 4 );
-      result[idx] = SeisUtil::ibm2num( SeisUtil::swap_int32( val ) );
+      result << SeisUtil::ibm2num( SeisUtil::swap_int32( val ) );
+    }
+    if( (idx-interval) != stopIdx ) {
+      qint32 val = SeisUtil::readInt32At( m_fileHandle, offset + stopIdx * 4 );
+      result << SeisUtil::ibm2num( SeisUtil::swap_int32( val ) );
     }
     return result;
   }
@@ -78,7 +82,7 @@ public:
   qint16               m_bytesPerTrace;
   qint32               m_totalTraces;
 
-  SectionConfig        m_config;
+  SliceConfig          m_config;
 };
 
 DataManager::DataManager( const QString& fileName, QObject* parent )
@@ -96,23 +100,24 @@ qint32 DataManager::totalTraces() const
   return _pd->m_totalTraces;
 }
 
-const SectionConfig& DataManager::sectionConfig() const
+const SliceConfig& DataManager::sliceConfig() const
 {
   return _pd->m_config;
 }
 
-void DataManager::setSectionConfig( const SectionConfig& sectionConfig )
+void DataManager::setSliceConfig( const SliceConfig& sliceConfig )
 {
-  _pd->m_config = sectionConfig;
+  _pd->m_config = sliceConfig;
   emit dataChanged();
 }
 
 UniformData2D DataManager::prepareDataWithIndexes( const QVector<qint32>& indexes,
-                                                   const QVector2D& timeRange )
+                                                   const QVector2D& timeRange,
+                                                   qint32 timeInterval )
 {
   QVector<qreal> data;
   foreach( qint32 traceIndex, indexes ) {
-    data << _pd->dataAtIndex( traceIndex, timeRange );
+    data << _pd->dataAtIndex( traceIndex, timeRange, timeInterval );
   }
   return UniformData2D( data, indexes, timeRange );
 }

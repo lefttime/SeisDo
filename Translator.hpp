@@ -17,6 +17,10 @@ public:
   LanguageType languageType() const;
   void setLanguageType( LanguageType );
 
+signals:
+
+  void languageChanged();
+
 private:
 
   Translator();

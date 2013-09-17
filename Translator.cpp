@@ -1,6 +1,7 @@
 #include "Translator.hpp"
 
 #include <QDir>
+#include <QtDebug>
 #include <QTranslator>
 #include <QApplication>
 
@@ -84,6 +85,7 @@ void Translator::setLanguageType( Translator::LanguageType languageType )
   if( _pd->m_languageType != languageType ) {
     _pd->m_languageType = languageType;
     _pd->update();
+    emit languageChanged();
   }
 }
 

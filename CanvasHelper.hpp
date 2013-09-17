@@ -7,7 +7,6 @@ class Canvas;
 
 class QPointF;
 class QPolygon;
-class QMouseEvent;
 
 class CanvasHelper : public QObject
 {
@@ -19,12 +18,14 @@ public:
   ~CanvasHelper();
 
   bool isEditable() const;
-  void enableEdit( bool );
 
 public slots:
 
+  void enableEdit( bool );
+
   void slotDataSourceChanged();
   void slotMove( const QPointF& );
+  void slotSelected( const QPolygon& );
 
 private:
 

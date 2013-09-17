@@ -4,7 +4,7 @@
 #include <QObject>
 
 class SeisDo;
-struct SectionConfig;
+struct SliceConfig;
 
 class SeisHelper : public QObject
 {
@@ -15,14 +15,16 @@ public:
   SeisHelper( SeisDo* target, QObject* parent=0 );
   ~SeisHelper();
 
-  const SectionConfig& sectionConfig() const;
-  void setSectionConfig( const SectionConfig& );
+  const SliceConfig& sliceConfig() const;
+  void setSliceConfig( const SliceConfig& );
 
   bool open();
   void save();
   void saveAs();
   void load();
   void close();
+
+  void setPickingEnabled( bool enabled );
 
   void next();
   void previous();

@@ -19,8 +19,14 @@ public:
   void setScene( Scene* );
   Scene* scene() const;
 
+  void enablePicking( bool enabled );
+
   DataManager* dataManager() const;
   void setDataManager( DataManager* dataManager );
+
+protected:
+
+  virtual void changeEvent( QEvent* event );
 
 signals:
 

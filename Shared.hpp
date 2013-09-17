@@ -4,13 +4,13 @@
 #include <QVector>
 #include <QVector2D>
 
-struct SectionConfig {
+struct SliceConfig {
   QVector<qint32> _indexes;
   QVector2D       _timeRange;
   qint32          _timeInterval;
   qint32          _traceCount;
 
-  bool operator == ( const SectionConfig& config ) {
+  bool operator == ( const SliceConfig& config ) {
     if( config._indexes == this->_indexes &&
         config._timeRange == this->_timeRange &&
         config._timeInterval == this->_timeInterval &&
@@ -21,7 +21,7 @@ struct SectionConfig {
     }
   }
 
-  bool operator != ( const SectionConfig& config ) {
+  bool operator != ( const SliceConfig& config ) {
     return !(*this == config);
   }
 };
