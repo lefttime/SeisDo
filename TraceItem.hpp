@@ -10,8 +10,6 @@ public:
   TraceItem();
   ~TraceItem();
 
-  void translate( const QPointF& );
-
 private:
 
   class TraceItemPrivate;

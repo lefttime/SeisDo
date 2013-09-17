@@ -14,6 +14,7 @@ public:
 
   ~TranslatorPrivate() {
     qDeleteAll( m_translators );
+    m_translators.clear();
   }
 
   void update() {

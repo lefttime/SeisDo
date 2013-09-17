@@ -54,8 +54,8 @@ public:
   }
 
   void clear() {
-    detach();
     qDeleteAll( m_traceList );
+    m_traceList.clear();
   }
 
   void adjustTraceList() {
@@ -91,10 +91,12 @@ public:
       QPolygonF samples( rowCount );
       for( int idy = 0; idy < rowCount; ++idy ) {
         qreal val = data.data().at( offset++ );
-        qreal xpos = ((val + absScale)/(2*absScale) - 0.5)*3;
+        qreal xpos = ((val + absScale)/(2*absScale) - 0.5)*10;
         qreal ypos = idy * sampleInterval;
         samples[idy] = QPointF( xpos + idx + indexes.first(), ypos );
       }
+      m_traceList.at( idx-1 )->setVisible( idx == 50 ? true : false );
+      m_traceList.at( idx-1 )->setBrush( Qt::black );
       m_traceList.at( idx-1 )->setSamples( samples );
     }
   }

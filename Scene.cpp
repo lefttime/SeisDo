@@ -14,6 +14,7 @@ public:
 
   ~ScenePrivate() {
     qDeleteAll( m_itemList );
+    m_itemList.clear();
   }
 
   Scene*              m_self;
