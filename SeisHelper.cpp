@@ -5,7 +5,7 @@
 #include "Canvas.hpp"
 #include "Shared.hpp"
 #include "DataManager.hpp"
-#include "SectionConfigEditor.hpp"
+#include "SliceConfigEditor.hpp"
 
 #include <QDir>
 #include <QLabel>
@@ -190,10 +190,11 @@ void SeisHelper::previous()
   }
 }
 
-void SeisHelper::sectionEdit()
+void SeisHelper::sliceEdit()
 {
-  SectionConfigEditor editor( _pd->m_sliceConfig, _pd->m_target );
+  SliceConfigEditor editor( _pd->m_sliceConfig, _pd->m_target );
   if( editor.exec() == QDialog::Accepted ) {
     setSliceConfig( editor.config() );
   }
+
 }

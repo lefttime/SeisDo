@@ -5,15 +5,15 @@
 
 struct SliceConfig;
 
-class SectionConfigEditor : public QDialog
+class SliceConfigEditor : public QDialog
 {
   Q_OBJECT;
   
 public:
 
-  explicit SectionConfigEditor(const SliceConfig& config,
+  explicit SliceConfigEditor(const SliceConfig& config,
                                 QWidget* parent );
-  ~SectionConfigEditor();
+  ~SliceConfigEditor();
 
   const SliceConfig& config() const;
 

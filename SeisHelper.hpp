@@ -28,7 +28,7 @@ public:
 
   void next();
   void previous();
-  void sectionEdit();
+  void sliceEdit();
 
 private:
 

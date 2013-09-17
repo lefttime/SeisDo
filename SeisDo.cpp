@@ -105,5 +105,5 @@ void SeisDo::on_actionNext_triggered()
 
 void SeisDo::on_actionOption_triggered()
 {
-  _pd->m_helper->sectionEdit();
+  _pd->m_helper->sliceEdit();
 }
