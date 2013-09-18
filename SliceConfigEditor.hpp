@@ -11,11 +11,19 @@ class SliceConfigEditor : public QDialog
   
 public:
 
-  explicit SliceConfigEditor(const SliceConfig& config,
-                                QWidget* parent );
+  explicit SliceConfigEditor( const SliceConfig& config,
+                              QWidget* parent );
   ~SliceConfigEditor();
 
   const SliceConfig& config() const;
+
+signals:
+
+  void configChanged( const SliceConfig& );
+
+private slots:
+
+  void on_btnApply_clicked();
 
 protected:
 

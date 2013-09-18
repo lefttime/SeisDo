@@ -162,6 +162,14 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="actionContent"/>
+    <addaction name="actionIndex"/>
+    <addaction name="actionContextHelp"/>
+    <addaction name="separator"/>
+    <addaction name="actionTechnicalSupport"/>
+    <addaction name="actionReportBug"/>
+    <addaction name="separator"/>
+    <addaction name="actionAboutSeisDo"/>
    </widget>
    <widget class="QMenu" name="menu_E">
     <property name="title">
@@ -169,11 +177,20 @@
     </property>
     <addaction name="actionEnablePicking"/>
    </widget>
+   <widget class="QMenu" name="menu_W">
+    <property name="title">
+     <string>&amp;Window</string>
+    </property>
+    <addaction name="actionFullScreen"/>
+    <addaction name="actionShowSliderBar"/>
+    <addaction name="actionShowModeSelector"/>
+   </widget>
    <addaction name="menu_F"/>
    <addaction name="menu_E"/>
    <addaction name="menu_B"/>
    <addaction name="menu_L"/>
    <addaction name="menu_T"/>
+   <addaction name="menu_W"/>
    <addaction name="menu_H"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -263,6 +280,57 @@
    </property>
    <property name="text">
     <string>Enable Picking</string>
+   </property>
+  </action>
+  <action name="actionContent">
+   <property name="text">
+    <string>Content</string>
+   </property>
+  </action>
+  <action name="actionIndex">
+   <property name="text">
+    <string>Index</string>
+   </property>
+  </action>
+  <action name="actionContextHelp">
+   <property name="text">
+    <string>Context &amp;Help</string>
+   </property>
+  </action>
+  <action name="actionTechnicalSupport">
+   <property name="text">
+    <string>Technical Support</string>
+   </property>
+  </action>
+  <action name="actionReportBug">
+   <property name="text">
+    <string>Report Bug...</string>
+   </property>
+  </action>
+  <action name="actionAboutSeisDo">
+   <property name="text">
+    <string>&amp;About SeisDo...</string>
+   </property>
+  </action>
+  <action name="actionFullScreen">
+   <property name="text">
+    <string>Full Screen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F11</string>
+   </property>
+  </action>
+  <action name="actionShowSliderBar">
+   <property name="text">
+    <string>Show Sidebar</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+0</string>
+   </property>
+  </action>
+  <action name="actionShowModeSelector">
+   <property name="text">
+    <string>Show Mode Selector</string>
    </property>
   </action>
  </widget>

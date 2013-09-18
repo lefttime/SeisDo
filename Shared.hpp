@@ -9,12 +9,19 @@ struct SliceConfig {
   QVector2D       _timeRange;
   qint32          _timeInterval;
   qint32          _traceCount;
+  qreal           _traceScale;
+  bool            _enabledFilled;
+
+  SliceConfig() : _traceScale( 5.0f ), _enabledFilled( true ) {
+  }
 
   bool operator == ( const SliceConfig& config ) {
     if( config._indexes == this->_indexes &&
         config._timeRange == this->_timeRange &&
         config._timeInterval == this->_timeInterval &&
-        config._traceCount == this->_traceCount ) {
+        config._traceCount == this->_traceCount &&
+        config._traceScale == this->_traceScale &&
+        config._enabledFilled == this->_enabledFilled ) {
       return true;
     } else {
       return false;

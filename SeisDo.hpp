@@ -35,6 +35,8 @@ private slots:
   void on_actionNext_triggered();
   void on_actionOption_triggered();
 
+  void on_actionFullScreen_triggered();
+
 private:
 
   class SeisDoPrivate;

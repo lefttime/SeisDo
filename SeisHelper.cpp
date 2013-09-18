@@ -19,6 +19,7 @@ public:
 
   SeisHelperPrivate( SeisHelper* me, SeisDo* target ) : m_self( me ), m_target( target ) {
     m_sliceConfig._traceCount = 300;
+    m_sliceConfig._traceScale = 5.0f;
     m_sliceConfig._timeInterval = 10;
     m_sliceConfig._indexes.resize( m_sliceConfig._traceCount );
     for( int idx = 0; idx < m_sliceConfig._traceCount; ++idx ) {
@@ -192,9 +193,10 @@ void SeisHelper::previous()
 
 void SeisHelper::sliceEdit()
 {
-  SliceConfigEditor editor( _pd->m_sliceConfig, _pd->m_target );
-  if( editor.exec() == QDialog::Accepted ) {
-    setSliceConfig( editor.config() );
-  }
+  SliceConfigEditor* editor = new SliceConfigEditor( _pd->m_sliceConfig, _pd->m_target );
+  editor->setAttribute( Qt::WA_DeleteOnClose );
+  connect( editor, SIGNAL( configChanged( const SliceConfig& ) ),
+           this,   SLOT( setSliceConfig( const SliceConfig& ) ) );
+  editor->show();
 
 }

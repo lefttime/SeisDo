@@ -107,3 +107,8 @@ void SeisDo::on_actionOption_triggered()
 {
   _pd->m_helper->sliceEdit();
 }
+
+void SeisDo::on_actionFullScreen_triggered()
+{
+  setWindowState( windowState() ^ Qt::WindowFullScreen );
+}

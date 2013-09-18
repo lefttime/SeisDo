@@ -10,6 +10,14 @@ public:
   TraceItem();
   ~TraceItem();
 
+protected:
+
+  virtual void fillCurve( QPainter* painter,
+                          const QwtScaleMap& xMap,
+                          const QwtScaleMap& yMap,
+                          const QRectF& canvasRect,
+                          QPolygonF& polygon ) const;
+
 private:
 
   class TraceItemPrivate;

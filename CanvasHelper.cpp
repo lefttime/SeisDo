@@ -71,7 +71,7 @@ public:
       qreal ypos = qBound( config._timeRange.x(),
                            m_markers.at( idx ).y(),
                            config._timeRange.y() );
-      m_markers[idx].setX( config._indexes.at( idx ) );
+      m_markers[idx].setX( config._indexes.at( idx )+1 );
       m_markers[idx].setY( ypos );
     }
 
@@ -183,8 +183,8 @@ void CanvasHelper::slotSelected( const QPolygon& selected )
 
   QPointF intersected;
   for( int idx = 0; idx < dataManager->sliceConfig()._traceCount; ++idx ) {
-    QLineF traceLine( QPointF(indexes.at( idx ), timeRange.x()),
-                      QPointF(indexes.at( idx ), timeRange.y()));
+    QLineF traceLine( QPointF(indexes.at( idx )+1, timeRange.x()),
+                      QPointF(indexes.at( idx )+1, timeRange.y()));
     if( baseLine.intersect( traceLine, &intersected ) == QLineF::BoundedIntersection ) {
       _pd->m_markers[idx].setY( intersected.y() );
     }

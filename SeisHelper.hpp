@@ -16,7 +16,6 @@ public:
   ~SeisHelper();
 
   const SliceConfig& sliceConfig() const;
-  void setSliceConfig( const SliceConfig& );
 
   bool open();
   void save();
@@ -29,6 +28,10 @@ public:
   void next();
   void previous();
   void sliceEdit();
+
+public slots:
+
+  void setSliceConfig( const SliceConfig& );
 
 private:
 

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'SeisDo.ui'
 **
-** Created: Tue Sep 17 17:03:05 2013
+** Created: Wed Sep 18 10:38:07 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -42,6 +42,15 @@ public:
     QAction *actionSaveAs;
     QAction *actionOption;
     QAction *actionEnablePicking;
+    QAction *actionContent;
+    QAction *actionIndex;
+    QAction *actionContextHelp;
+    QAction *actionTechnicalSupport;
+    QAction *actionReportBug;
+    QAction *actionAboutSeisDo;
+    QAction *actionFullScreen;
+    QAction *actionShowSliderBar;
+    QAction *actionShowModeSelector;
     QWidget *centralWidget;
     QGridLayout *gridLayout_2;
     QFrame *headerInfo;
@@ -59,6 +68,7 @@ public:
     QMenu *menuLanguage;
     QMenu *menu_H;
     QMenu *menu_E;
+    QMenu *menu_W;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *SeisDoClass)
@@ -101,6 +111,24 @@ public:
         actionEnablePicking = new QAction(SeisDoClass);
         actionEnablePicking->setObjectName(QString::fromUtf8("actionEnablePicking"));
         actionEnablePicking->setCheckable(true);
+        actionContent = new QAction(SeisDoClass);
+        actionContent->setObjectName(QString::fromUtf8("actionContent"));
+        actionIndex = new QAction(SeisDoClass);
+        actionIndex->setObjectName(QString::fromUtf8("actionIndex"));
+        actionContextHelp = new QAction(SeisDoClass);
+        actionContextHelp->setObjectName(QString::fromUtf8("actionContextHelp"));
+        actionTechnicalSupport = new QAction(SeisDoClass);
+        actionTechnicalSupport->setObjectName(QString::fromUtf8("actionTechnicalSupport"));
+        actionReportBug = new QAction(SeisDoClass);
+        actionReportBug->setObjectName(QString::fromUtf8("actionReportBug"));
+        actionAboutSeisDo = new QAction(SeisDoClass);
+        actionAboutSeisDo->setObjectName(QString::fromUtf8("actionAboutSeisDo"));
+        actionFullScreen = new QAction(SeisDoClass);
+        actionFullScreen->setObjectName(QString::fromUtf8("actionFullScreen"));
+        actionShowSliderBar = new QAction(SeisDoClass);
+        actionShowSliderBar->setObjectName(QString::fromUtf8("actionShowSliderBar"));
+        actionShowModeSelector = new QAction(SeisDoClass);
+        actionShowModeSelector->setObjectName(QString::fromUtf8("actionShowModeSelector"));
         centralWidget = new QWidget(SeisDoClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         centralWidget->setFont(font);
@@ -179,6 +207,8 @@ public:
         menu_H->setObjectName(QString::fromUtf8("menu_H"));
         menu_E = new QMenu(menuBar);
         menu_E->setObjectName(QString::fromUtf8("menu_E"));
+        menu_W = new QMenu(menuBar);
+        menu_W->setObjectName(QString::fromUtf8("menu_W"));
         SeisDoClass->setMenuBar(menuBar);
         statusBar = new QStatusBar(SeisDoClass);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -189,6 +219,7 @@ public:
         menuBar->addAction(menu_B->menuAction());
         menuBar->addAction(menu_L->menuAction());
         menuBar->addAction(menu_T->menuAction());
+        menuBar->addAction(menu_W->menuAction());
         menuBar->addAction(menu_H->menuAction());
         menu_F->addAction(actionOpen);
         menu_F->addAction(actionClose);
@@ -204,7 +235,18 @@ public:
         menu_T->addAction(actionOption);
         menuLanguage->addAction(actionChinese);
         menuLanguage->addAction(actionEnglish);
+        menu_H->addAction(actionContent);
+        menu_H->addAction(actionIndex);
+        menu_H->addAction(actionContextHelp);
+        menu_H->addSeparator();
+        menu_H->addAction(actionTechnicalSupport);
+        menu_H->addAction(actionReportBug);
+        menu_H->addSeparator();
+        menu_H->addAction(actionAboutSeisDo);
         menu_E->addAction(actionEnablePicking);
+        menu_W->addAction(actionFullScreen);
+        menu_W->addAction(actionShowSliderBar);
+        menu_W->addAction(actionShowModeSelector);
 
         retranslateUi(SeisDoClass);
         QObject::connect(actionExit, SIGNAL(triggered()), SeisDoClass, SLOT(close()));
@@ -228,6 +270,17 @@ public:
         actionSaveAs->setText(QApplication::translate("SeisDoClass", "Save &As...", 0, QApplication::UnicodeUTF8));
         actionOption->setText(QApplication::translate("SeisDoClass", "&Option", 0, QApplication::UnicodeUTF8));
         actionEnablePicking->setText(QApplication::translate("SeisDoClass", "Enable Picking", 0, QApplication::UnicodeUTF8));
+        actionContent->setText(QApplication::translate("SeisDoClass", "Content", 0, QApplication::UnicodeUTF8));
+        actionIndex->setText(QApplication::translate("SeisDoClass", "Index", 0, QApplication::UnicodeUTF8));
+        actionContextHelp->setText(QApplication::translate("SeisDoClass", "Context &Help", 0, QApplication::UnicodeUTF8));
+        actionTechnicalSupport->setText(QApplication::translate("SeisDoClass", "Technical Support", 0, QApplication::UnicodeUTF8));
+        actionReportBug->setText(QApplication::translate("SeisDoClass", "Report Bug...", 0, QApplication::UnicodeUTF8));
+        actionAboutSeisDo->setText(QApplication::translate("SeisDoClass", "&About SeisDo...", 0, QApplication::UnicodeUTF8));
+        actionFullScreen->setText(QApplication::translate("SeisDoClass", "Full Screen", 0, QApplication::UnicodeUTF8));
+        actionFullScreen->setShortcut(QApplication::translate("SeisDoClass", "Ctrl+Shift+F11", 0, QApplication::UnicodeUTF8));
+        actionShowSliderBar->setText(QApplication::translate("SeisDoClass", "Show Sidebar", 0, QApplication::UnicodeUTF8));
+        actionShowSliderBar->setShortcut(QApplication::translate("SeisDoClass", "Alt+0", 0, QApplication::UnicodeUTF8));
+        actionShowModeSelector->setText(QApplication::translate("SeisDoClass", "Show Mode Selector", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("SeisDoClass", "Survey", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("SeisDoClass", "SurveyLine", 0, QApplication::UnicodeUTF8));
         menu_F->setTitle(QApplication::translate("SeisDoClass", "&File", 0, QApplication::UnicodeUTF8));
@@ -237,6 +290,7 @@ public:
         menuLanguage->setTitle(QApplication::translate("SeisDoClass", "&Language", 0, QApplication::UnicodeUTF8));
         menu_H->setTitle(QApplication::translate("SeisDoClass", "&Help", 0, QApplication::UnicodeUTF8));
         menu_E->setTitle(QApplication::translate("SeisDoClass", "&Edit", 0, QApplication::UnicodeUTF8));
+        menu_W->setTitle(QApplication::translate("SeisDoClass", "&Window", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

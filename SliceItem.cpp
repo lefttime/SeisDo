@@ -87,17 +87,18 @@ public:
     qreal sampleInterval = (timeRange.y()-timeRange.x())/(rowCount-1);
 
     int offset = 0;
+    QBrush brush = m_config._enabledFilled ? Qt::black : QBrush( Qt::NoBrush );
     for( int idx = 1; idx <= colCount; ++idx ) {
       QPolygonF samples( rowCount );
       for( int idy = 0; idy < rowCount; ++idy ) {
         qreal val = data.data().at( offset++ );
-        qreal xpos = ((val + absScale)/(2*absScale) - 0.5)*10;
+        qreal xpos = ((val + absScale)/(2*absScale) - 0.5)*m_config._traceScale;
         qreal ypos = idy * sampleInterval;
         samples[idy] = QPointF( xpos + idx + indexes.first(), ypos );
       }
-      m_traceList.at( idx-1 )->setVisible( idx == 50 ? true : false );
-      m_traceList.at( idx-1 )->setBrush( Qt::black );
+      m_traceList.at( idx-1 )->setBrush( brush );
       m_traceList.at( idx-1 )->setSamples( samples );
+      m_traceList.at( idx-1 )->setBaseline( idx + indexes.first() );
     }
   }
 
