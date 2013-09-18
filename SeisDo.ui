@@ -252,6 +252,9 @@
    <property name="text">
     <string>E&amp;xit</string>
    </property>
+   <property name="shortcut">
+    <string>Alt+Q</string>
+   </property>
   </action>
   <action name="actionSave">
    <property name="enabled">

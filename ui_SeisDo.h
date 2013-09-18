@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'SeisDo.ui'
 **
-** Created: Wed Sep 18 10:38:07 2013
+** Created: Wed Sep 18 12:34:44 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -266,6 +266,7 @@ public:
         actionOpen->setText(QApplication::translate("SeisDoClass", "&Open", 0, QApplication::UnicodeUTF8));
         actionClose->setText(QApplication::translate("SeisDoClass", "&Close", 0, QApplication::UnicodeUTF8));
         actionExit->setText(QApplication::translate("SeisDoClass", "E&xit", 0, QApplication::UnicodeUTF8));
+        actionExit->setShortcut(QApplication::translate("SeisDoClass", "Alt+Q", 0, QApplication::UnicodeUTF8));
         actionSave->setText(QApplication::translate("SeisDoClass", "&Save", 0, QApplication::UnicodeUTF8));
         actionSaveAs->setText(QApplication::translate("SeisDoClass", "Save &As...", 0, QApplication::UnicodeUTF8));
         actionOption->setText(QApplication::translate("SeisDoClass", "&Option", 0, QApplication::UnicodeUTF8));
