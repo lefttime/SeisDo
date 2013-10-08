@@ -13,8 +13,9 @@ class Canvas::CanvasPrivate
 {
 public:
 
-  CanvasPrivate( Canvas* me )
-    : m_self( me ), m_dataManager( 0 ), m_scene( 0 ) {
+  CanvasPrivate( Canvas* me ) : m_self( me ) {
+    m_dataManager = 0;
+    m_scene = 0;
   }
 
   ~CanvasPrivate() {

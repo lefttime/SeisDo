@@ -32,3 +32,6 @@ Win32
 *.vc*
 *.pdb
 *.user
+
+# MAC OS
+*.app
