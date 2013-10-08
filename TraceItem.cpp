@@ -11,76 +11,6 @@ public:
   TraceItemPrivate( TraceItem* me ) : m_self( me ) {
   }
 
-  void closePolyline( QPainter *painter,
-                      const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-                      QPolygonF &polygon ) const {
-    if( polygon.size() < 2 ) {
-      return;
-    }
-
-    const bool doAlign = QwtPainter::roundingAlignment( painter );
-
-    double baseline = m_self->baseline();
-
-    if( m_self->orientation() != Qt::Vertical ) {
-      if( yMap.transformation() ) {
-        baseline = yMap.transformation()->bounded( baseline );
-      }
-
-      double refY = yMap.transform( baseline );
-      if( doAlign ) {
-        refY = qRound( refY );
-      }
-
-      polygon += QPointF( polygon.last().x(),  refY );
-      polygon += QPointF( polygon.first().x(), refY );
-    } else {
-      if( xMap.transformation() ) {
-        baseline = xMap.transformation()->bounded( baseline );
-      }
-
-      double refX = xMap.transform( baseline );
-      if( doAlign ) {
-        refX = qRound( refX );
-      }
-
-      polygon += QPointF( refX, polygon.last().y() );
-      polygon += QPointF( refX, polygon.first().y() );
-    }
-  }
-
-  void fillCurve( QPainter* painter,
-                  const QwtScaleMap& xMap, const QwtScaleMap& yMap,
-                  const QRectF& canvasRect, QPolygonF& polygon ) const {
-    if( m_self->brush().style() == Qt::NoBrush ) {
-      return;
-    }
-
-    closePolyline( painter, xMap, yMap, polygon );
-    if( polygon.count() <= 2 ) { // a line can't be filled
-      return;
-    }
-
-    QBrush theBrush = m_self->brush();
-    if( !theBrush.color().isValid() ) {
-      theBrush.setColor( m_self->pen().color() );
-    }
-
-    if( PaintAttributes() & QwtPlotCurve::ClipPolygons ) {
-      polygon = QwtClipper::clipPolygonF( canvasRect, polygon, true );
-    }
-
-    painter->save();
-
-    painter->setPen( Qt::NoPen );
-    painter->setBrush( theBrush );
-
-    QwtPainter::drawPolygon( painter, polygon );
-
-    painter->restore();
-
-  }
-
   TraceItem*            m_self;
 };
 
@@ -118,7 +48,6 @@ void TraceItem::fillCurve( QPainter* painter,
   painter->setClipRect( clipRect, Qt::IntersectClip );
 
   QwtPlotCurve::fillCurve( painter, xMap, yMap, canvasRect, polygon );
-//  _pd->fillCurve( painter, xMap, yMap, canvasRect, polygon );
 
   painter->restore();
 }
