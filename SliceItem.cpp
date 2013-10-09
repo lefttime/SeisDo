@@ -73,9 +73,10 @@ public:
   }
 
   void updateComponent() {
-    UniformData2D data = m_dataManager->prepareDataWithIndexes( m_config._indexes,
-                                                                m_config._timeRange,
-                                                                m_config._timeInterval );
+    const UniformData2D& data
+        = m_dataManager->prepareDataWithIndexes( m_config._indexes,
+                                                 m_config._timeRange,
+                                                 m_config._timeInterval );
     qreal absScale = qMax( qAbs( data.dataRange().x() ),
                            qAbs( data.dataRange().y() ) );
 

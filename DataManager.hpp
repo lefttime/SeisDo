@@ -21,9 +21,9 @@ public:
   const SliceConfig& sliceConfig() const;
   void setSliceConfig( const SliceConfig& );
 
-  UniformData2D prepareDataWithIndexes( const QVector<qint32>& indexes,
-                                        const QVector2D& timeRange,
-                                        qint32 timeInterval=2 );
+  const UniformData2D& prepareDataWithIndexes( const QVector<qint32>& indexes,
+                                               const QVector2D& timeRange,
+                                               qint32 timeInterval=2 );
 
 signals:
 

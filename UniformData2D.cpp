@@ -44,7 +44,7 @@ UniformData2D::~UniformData2D()
 {
 }
 
-const QVector2D&UniformData2D::dataRange() const
+const QVector2D& UniformData2D::dataRange() const
 {
   return _pd->m_dataRange;
 }

@@ -101,6 +101,7 @@ public:
   QVector2D            m_dataRange;
 
   SliceConfig          m_config;
+  UniformData2D        m_dataBuffer;
 };
 
 DataManager::DataManager( const QString& fileName, QObject* parent )
@@ -129,16 +130,17 @@ void DataManager::setSliceConfig( const SliceConfig& sliceConfig )
   emit dataChanged();
 }
 
-UniformData2D DataManager::prepareDataWithIndexes( const QVector<qint32>& indexes,
-                                                   const QVector2D& timeRange,
-                                                   qint32 timeInterval )
+const UniformData2D& DataManager::prepareDataWithIndexes( const QVector<qint32>& indexes,
+                                                          const QVector2D& timeRange,
+                                                          qint32 timeInterval )
 {
   QVector<qreal> data;
   foreach( qint32 traceIndex, indexes ) {
     data << _pd->dataAtIndex( traceIndex, timeRange, timeInterval );
   }
-  UniformData2D result( data, indexes, timeRange );
-  result.setDataRange( _pd->m_dataRange );
-  return result;
-//  return UniformData2D( data, indexes, timeRange );
+  _pd->m_dataBuffer.setData( data );
+  _pd->m_dataBuffer.setIndexes( indexes );
+  _pd->m_dataBuffer.setTimeRange( timeRange );
+  _pd->m_dataBuffer.setDataRange( _pd->m_dataRange );
+  return _pd->m_dataBuffer;
 }
