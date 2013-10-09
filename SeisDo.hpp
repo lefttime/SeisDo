@@ -26,14 +26,14 @@ private slots:
   void on_actionOpen_triggered();
   void on_actionClose_triggered();
 
-  void on_actionEnablePicking_triggered();
-
   void on_actionChinese_triggered();
   void on_actionEnglish_triggered();
 
   void on_actionPrevious_triggered();
   void on_actionNext_triggered();
-  void on_actionOption_triggered();
+
+  void on_actionSetting_triggered();
+  void on_actionPicking_triggered();
 
   void on_actionFullScreen_triggered();
 

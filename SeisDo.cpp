@@ -24,7 +24,7 @@ public:
 
   void init() {
     m_helper = new SeisHelper( m_self );
-    m_self->on_actionEnablePicking_triggered();
+    m_self->on_actionPicking_triggered();
   }
 
   SeisDo*         m_self;
@@ -76,13 +76,6 @@ void SeisDo::on_actionClose_triggered()
   _pd->m_ui.actionClose->setEnabled( false );
 }
 
-void SeisDo::on_actionEnablePicking_triggered()
-{
-  bool enabled = _pd->m_ui.actionEnablePicking->isChecked();
-  _pd->m_helper->setPickingEnabled( enabled );
-  canvas()->canvas()->setCursor( enabled ? Qt::CrossCursor : Qt::ArrowCursor );
-}
-
 void SeisDo::on_actionChinese_triggered()
 {
   theTranslator->setLanguageType( Translator::Chinese );
@@ -103,9 +96,16 @@ void SeisDo::on_actionNext_triggered()
   _pd->m_helper->next();
 }
 
-void SeisDo::on_actionOption_triggered()
+void SeisDo::on_actionSetting_triggered()
 {
   _pd->m_helper->sliceEdit();
+}
+
+void SeisDo::on_actionPicking_triggered()
+{
+  bool enabled = _pd->m_ui.actionPicking->isChecked();
+  _pd->m_helper->setPickingEnabled( enabled );
+  canvas()->canvas()->setCursor( enabled ? Qt::CrossCursor : Qt::ArrowCursor );
 }
 
 void SeisDo::on_actionFullScreen_triggered()

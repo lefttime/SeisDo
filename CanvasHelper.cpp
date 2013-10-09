@@ -17,7 +17,6 @@ public:
 
   CanvasHelperPrivate( CanvasHelper* me, Canvas* target )
     : m_self ( me ), m_target( target ), m_slice( 0 ), m_firstArrival( 0 ) {
-    m_curveList.clear();
     m_target->setAutoReplot( false );
   }
 
@@ -82,9 +81,6 @@ public:
   }
 
   void clear() {
-    qDeleteAll( m_curveList );
-    m_curveList.clear();
-
     m_markers.clear();
     m_slice->clear();
     m_firstArrival->setSamples( m_markers );
@@ -123,7 +119,6 @@ public:
   Picker*               m_picker;
   Tracker*              m_tracker;
 
-  QList<QwtPlotCurve*>  m_curveList;
   SliceItem*            m_slice;
   QwtPlotCurve*         m_firstArrival;
 

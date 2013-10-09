@@ -7,6 +7,8 @@
 #include <QtDebug>
 #include <QVector2D>
 
+#include <float.h>
+
 class DataManager::DataManagerPrivate
 {
 public:
@@ -30,6 +32,7 @@ public:
       return false;
     }
     rebuildIndex();
+    m_dataRange = extractDataRange( 300 );
 
     m_config._timeRange = QVector2D(0, 2000);
     m_config._indexes.resize( 200 );
@@ -72,6 +75,20 @@ public:
     return result;
   }
 
+  QVector2D extractDataRange( int traceCount ) {
+    QVector2D dataRange( FLT_MAX, FLT_MIN );
+
+    qint32 timeInterval = m_sampleRate / 1000;
+    QVector2D timeRange(0, timeInterval*m_traceLength);
+    for( int idx = 0; idx < traceCount; ++idx ) {
+      QVector<qreal> data = dataAtIndex( idx, timeRange, timeInterval );
+      qSort( data );
+      dataRange.setX( qMin( dataRange.x(), data.first() ) );
+      dataRange.setY( qMax( dataRange.y(), data.last() ) );
+    }
+    return dataRange;
+  }
+
   DataManager*         m_self;
   QString              m_fileName;
   QFile*               m_fileHandle;
@@ -81,6 +98,7 @@ public:
   qint16               m_formatCode;
   qint16               m_bytesPerTrace;
   qint32               m_totalTraces;
+  QVector2D            m_dataRange;
 
   SliceConfig          m_config;
 };
@@ -119,5 +137,8 @@ UniformData2D DataManager::prepareDataWithIndexes( const QVector<qint32>& indexe
   foreach( qint32 traceIndex, indexes ) {
     data << _pd->dataAtIndex( traceIndex, timeRange, timeInterval );
   }
-  return UniformData2D( data, indexes, timeRange );
+  UniformData2D result( data, indexes, timeRange );
+  result.setDataRange( _pd->m_dataRange );
+  return result;
+//  return UniformData2D( data, indexes, timeRange );
 }

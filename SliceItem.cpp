@@ -76,9 +76,8 @@ public:
     UniformData2D data = m_dataManager->prepareDataWithIndexes( m_config._indexes,
                                                                 m_config._timeRange,
                                                                 m_config._timeInterval );
-    qreal minValue = data.minValue();
-    qreal maxValue = data.maxValue();
-    qreal absScale = qMax( qAbs( minValue ), qAbs( maxValue ) );
+    qreal absScale = qMax( qAbs( data.dataRange().x() ),
+                           qAbs( data.dataRange().y() ) );
 
     const QVector2D& timeRange = data.timeRange();
     const QVector<qint32>& indexes = data.indexes();

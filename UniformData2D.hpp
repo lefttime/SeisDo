@@ -15,8 +15,8 @@ public:
                  const QVector2D& timeRange );
   ~UniformData2D();
 
-  qreal minValue() const;
-  qreal maxValue() const;
+  const QVector2D& dataRange() const;
+  void setDataRange( const QVector2D& dataRange );
 
   const QVector<qint32>& indexes() const;
   void setIndexes( const QVector<qint32>& indexes );

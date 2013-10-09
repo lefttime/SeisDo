@@ -35,3 +35,4 @@ Win32
 
 # MAC OS
 *.app
+.DS_Store

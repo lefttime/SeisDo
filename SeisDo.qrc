@@ -2,5 +2,25 @@
     <qresource prefix="/">
         <file>translations/SeisDo_en.qm</file>
         <file>translations/SeisDo_zh.qm</file>
+        <file>Resources/images/Editing_1_16X16.png</file>
+        <file>Resources/images/Editing_1_32X32.png</file>
+        <file>Resources/images/Editing_2_16X16.png</file>
+        <file>Resources/images/Editing_2_32X32.png</file>
+        <file>Resources/images/Fitting_1_16X16.png</file>
+        <file>Resources/images/Fitting_1_32X32.png</file>
+        <file>Resources/images/Fitting_2_16X16.png</file>
+        <file>Resources/images/Fitting_2_32X32.png</file>
+        <file>Resources/images/Logo_50X65.png</file>
+        <file>Resources/images/Logo_200X260.png</file>
+        <file>Resources/images/Picking_1_16X16.png</file>
+        <file>Resources/images/Picking_1_32X32.png</file>
+        <file>Resources/images/Picking_2_16X16.png</file>
+        <file>Resources/images/Picking_2_32X32.png</file>
+        <file>Resources/images/Setting_1_16X16.png</file>
+        <file>Resources/images/Setting_1_32X32.png</file>
+        <file>Resources/images/Setting_2_16X16.png</file>
+        <file>Resources/images/Setting_2_32X32.png</file>
+        <file>Resources/images/Widget_16X16.png</file>
+        <file>Resources/images/Widget_32X32.png</file>
     </qresource>
 </RCC>
