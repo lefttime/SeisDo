@@ -4,11 +4,15 @@
 #include "SeisDo.hpp"
 #include "Canvas.hpp"
 #include "Shared.hpp"
+#include "Adjustment.hpp"
 #include "DataManager.hpp"
+#include "ScrollZoomer.hpp"
 #include "SliceConfigEditor.hpp"
 
 #include <QDir>
 #include <QLabel>
+#include <QtDebug>
+#include <QToolBar>
 #include <QFileInfo>
 #include <QStatusBar>
 #include <QFileDialog>
@@ -32,11 +36,27 @@ public:
     m_scene = new Scene( m_self );
     m_target->canvas()->setScene( m_scene );
 
+    initToolBar();
     initStatusBar();
+
+//    (void) new ScrollZoomer( m_target->canvas()->canvas() );
+  }
+
+  void initToolBar() {
+    QToolBar* toolBar = new QToolBar( tr("Adjustment") );
+    toolBar->setMovable( false );
+    toolBar->setFloatable( false );
+    toolBar->addWidget( new Adjustment() );
+    m_target->addToolBar( toolBar );
   }
 
   void initStatusBar() {
-    m_pickerInfo = new QLabel( tr( "DaoNo.: " ) + tr( "Offset: " ) + tr( "Time: " ) );
+    m_pickerInfo = new QLabel( tr( "FFID" )   + ": " +
+                               tr( "Channel" )+ ": " +
+                               tr( "Offset" ) + ": " +
+                               tr( "LineNo" ) + ": " +
+                               tr( "StakeNo" )+ ": " +
+                               tr( "Time" )   + ": " );
     m_segyfileInfo = new QLabel( QObject::tr( "SEGY file:" ) );
     m_datafileInfo = new QLabel( tr( "FirstArrival file:" ) );
 

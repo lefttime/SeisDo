@@ -27,9 +27,13 @@ HEADERS += Canvas.hpp \
     StandardItem.hpp \
     TraceItem.hpp \
     SliceItem.hpp \
-    SliceConfigEditor.hpp
+    SliceConfigEditor.hpp \
+    Adjustment.hpp \
+    ScrollZoomer.hpp \
+    Scrollbar.hpp
 FORMS += SeisDo.ui \
-    SliceConfigEditor.ui
+    SliceConfigEditor.ui \
+    Adjustment.ui
 SOURCES += Canvas.cpp \
            CanvasHelper.cpp \
            DataManager.cpp \
@@ -47,6 +51,9 @@ SOURCES += Canvas.cpp \
     StandardItem.cpp \
     TraceItem.cpp \
     SliceItem.cpp \
-    SliceConfigEditor.cpp
+    SliceConfigEditor.cpp \
+    Adjustment.cpp \
+    ScrollZoomer.cpp \
+    Scrollbar.cpp
 RESOURCES += SeisDo.qrc
 TRANSLATIONS += translations/SeisDo_en.ts translations/SeisDo_zh.ts

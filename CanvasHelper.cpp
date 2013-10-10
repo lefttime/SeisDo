@@ -154,9 +154,13 @@ void CanvasHelper::slotDataSourceChanged()
 void CanvasHelper::slotMove( const QPointF& pos )
 {
   QString info;
-  info += tr( "DaoNo." ) + QString( ": %1  " ).arg( int(pos.x()+0.5) );
-  info += tr( "Offset" ) + QString( ": %1  " ).arg( pos.x() );
-  info += tr( "Time" ) + QString( ": %1" ).arg( pos.y() );
+  info += tr( "FFID" )    + QString( ": %1  " ).arg( int(pos.x()+0.5) );
+  info += tr( "Channel" ) + QString( ": %1  " ).arg( pos.x() );
+  info += tr( "Offset" )  + QString( ": %1  " ).arg( 0 );
+  info += tr( "LineNo" )  + QString( ": %1  " ).arg( 0 );
+  info += tr( "StakeNo" ) + QString( ": %1  " ).arg( 0 );
+  info += tr( "Time" )    + QString( ": %1"   ).arg( pos.y() );
+
   emit _pd->m_target->infoPicking( info );
 }
 
